@@ -34,7 +34,7 @@ export let mock_data = [
   {
     id: '2',
     jobTitle: 'string',
-    firstName: 'user 1',
+    firstName: 'user 2',
     lastName: 'string',
     age: 'number',
     email: 'string',
@@ -66,7 +66,7 @@ export let mock_data = [
   {
     id: '3',
     jobTitle: 'string',
-    firstName: 'user 1',
+    firstName: 'user 3',
     lastName: 'string',
     age: 'number',
     email: 'string',
@@ -98,7 +98,7 @@ export let mock_data = [
   {
     id: '4',
     jobTitle: 'string',
-    firstName: 'user 1',
+    firstName: 'user 4',
     lastName: 'string',
     age: 'number',
     email: 'string',
