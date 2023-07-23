@@ -1,9 +1,13 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { mock_data } from './src/MOCK_DATA/data'
 import axios from 'axios'
+import { useForm } from 'react-hook-form'
+
 const Context = createContext(null)
 
 export const ContextProvider = ({ children }) => {
+  const { register, getValues } = useForm()
+
   // data and API calls
   const [data, setData] = useState([])
 
@@ -69,8 +73,27 @@ export const ContextProvider = ({ children }) => {
       setSavedResumes(parsedResumes)
     }
   }, [])
+
+  const [dum, setDum] = useState()
+  let text = getValues('text')
+  const handleClick = () => {
+    setDum(text)
+  }
+  useEffect(() => {
+    console.log(text)
+  }, [dum])
   return (
-    <Context.Provider value={{ data, nextUser, resumeIndex, save }}>
+    <Context.Provider
+      value={{
+        data,
+        nextUser,
+        resumeIndex,
+        save,
+        register,
+        getValues,
+        handleClick,
+      }}
+    >
       {children}
     </Context.Provider>
   )

@@ -13,14 +13,14 @@ const Resume = ({ data }) => {
     <div className={style.mainDiv}>
       <div className={style.infoWrapper}>
         <h1 className={style.header}> Personal Information </h1>
-        <InformationBlock title="Job" data={data.position} />
+        <InformationBlock title="Job" data={data.jobTitle} />
         <InformationBlock title="First Name" data={data.firstName} />
         <InformationBlock title="Last Name" data={data.lastName} />
         <InformationBlock title="Age" data={data.age} />
         <InformationBlock title="Email" data={data.email} />
         <InformationBlock title="Address" data={data.address} />
       </div>
-      {data.experience.map((elem) => {
+      {data.jobExperience.map((elem) => {
         return (
           <div key={elem.compay} className={style.infoWrapper}>
             <h1 className={style.header}>Experince</h1>
@@ -31,7 +31,7 @@ const Resume = ({ data }) => {
           </div>
         )
       })}
-      {data.experience?.map((elem) => {
+      {data.education?.map((elem) => {
         return (
           <div key={elem.school} className={style.infoWrapper}>
             <h1 className={style.header}>Education</h1>
