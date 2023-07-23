@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 import Header from '../components/Header'
 const Main = () => {
   const style = {
-    mainDiv: `w-[80%] h-[100vh] justify-around  flex flex-col  m-auto bg-gray-100 p-5 shadow-2xl	 `,
+    mainDiv: `w-[80%] h-[100%] justify-around  flex flex-col  m-auto bg-gray-100 p-5 shadow-2xl	 `,
   }
 
   return (
