@@ -102,13 +102,20 @@ export const ContextProvider = ({ children }) => {
   }
 
   // basici info
+
+  //SKILLS/////////////////
   const [technologies, setTechnologies] = useState([])
 
   const addSkill = () => {
     let skill = getValues('skill')
-
-    setTechnologies([...technologies, skill])
-    reset({ skill: '' })
+    if (skill) {
+      setTechnologies([...technologies, skill])
+      reset({ skill: '' })
+    }
+  }
+  const RemoveSkill = (skill) => {
+    let newArr = technologies.filter((val) => val !== skill)
+    setTechnologies(newArr)
   }
 
   // work experience
@@ -127,8 +134,12 @@ export const ContextProvider = ({ children }) => {
     }
     if (company && position && date && desc) {
       setWorkExperience([...workExperience, obj])
-      // reset({ company: '', position: '', date: '', desc: '' })
     }
+  }
+
+  const RemoveWork = (index) => {
+    let newArr = workExperience.filter((val, i) => i !== index)
+    setWorkExperience(newArr)
   }
 
   // education
@@ -148,7 +159,10 @@ export const ContextProvider = ({ children }) => {
       setEducation([...education, obj])
     }
   }
-
+  const RemoveEducation = (index) => {
+    let newArr = education.filter((val, i) => i !== index)
+    setEducation(newArr)
+  }
   // sending all the information to data base
 
   // uploading photo
@@ -277,6 +291,10 @@ export const ContextProvider = ({ children }) => {
         imgUpload,
         removeImgFromHtml,
         loading,
+        imgUrl,
+        RemoveSkill,
+        RemoveWork,
+        RemoveEducation,
       }}
     >
       {children}

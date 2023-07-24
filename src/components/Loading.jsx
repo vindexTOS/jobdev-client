@@ -5,7 +5,7 @@ const LoadingComponent = ({ loading }) => {
   return (
     <>
       {loading && (
-        <p className="text-[19rem]  z-50 text-[#ec2b58] absolute left-[45%] bottom-80  ">
+        <p className="text-[5rem] z-50 text-[#ec2b58] absolute   left-[48%] top-80 animate-spin ">
           <AiOutlineLoading className="rotate" />
         </p>
       )}

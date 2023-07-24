@@ -30,7 +30,7 @@ const ResumeProgressBar = () => {
   const { handleProgressBar, progressBar, setProgressBar } = UseMainContext()
   const [progressWidth, setProgressWidth] = useState(0)
   const style = {
-    btnWrapper: `flex w-[100%] items-center justify-around`,
+    btnWrapper: `flex w-[100%] items-center justify-around  `,
   }
   const handleNext = (stage) => {
     setProgressBar(stage)
@@ -41,16 +41,16 @@ const ResumeProgressBar = () => {
     setProgressWidth(
       progressBar === 1
         ? progressBar * 100
-        : progressBar === 2
-        ? progressBar - 1 * 100
+        : 1 === 2
+        ? 1 * 100
         : progressBar === 3
-        ? progressBar - 2 * 100
+        ? 1 * 100
         : progressBar * 100,
     )
   }, [progressBar])
 
   return (
-    <div className="flex flex-col gap-10 py-10">
+    <div className="flex flex-col gap-10 py-10 py-20">
       <section className="flex w-[100%] gap-2 items-center justify-center">
         <ProgressBar
           color={progressBar >= 1 ? '#fe3c72' : ''}
