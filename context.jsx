@@ -2,11 +2,11 @@ import { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { mock_data } from './src/MOCK_DATA/data'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-
+import { baseUrl } from './src/globals/url'
 const Context = createContext(null)
 
 export const ContextProvider = ({ children }) => {
-  const { register, getValues } = useForm()
+  const { register, getValues, reset } = useForm()
 
   // data and API calls
   const [data, setData] = useState([])
@@ -73,15 +73,129 @@ export const ContextProvider = ({ children }) => {
       setSavedResumes(parsedResumes)
     }
   }, [])
+  // resume builder functionality /////////////
 
-  const [dum, setDum] = useState()
-  let text = getValues('text')
-  const handleClick = () => {
-    setDum(text)
+  const [progressBar, setProgressBar] = useState(0)
+
+  const handleProgressBar = (string) => {
+    let firstName = getValues('firstName')
+    let lastName = getValues('lasName')
+    let jobTitle = getValues('jobTitle')
+    let age = getValues('age')
+    let email = getValues('email')
+    let phoneNumber = getValues('phoneNumber')
+    let gitHub = getValues('github')
+    let linkedIn = getValues('linkedIn')
+    let BaisicInfoCheck =
+      firstName && lastName && jobTitle && age && email ? true : false
+
+    if (string === 'next' && progressBar <= 3) {
+      // if (BaisicInfoCheck) {
+
+      setProgressBar((prevProgressBar) => prevProgressBar + 1)
+      // }
+    } else if (string === 'back' && progressBar >= 0) {
+      setProgressBar((prevProgressBar) => prevProgressBar - 1)
+    }
   }
+
+  // basici info
+  const [technologies, setTechnologies] = useState([])
+
+  const addSkill = () => {
+    let skill = getValues('skill')
+
+    setTechnologies([...technologies, skill])
+    reset({ skill: '' })
+  }
+
+  // work experience
+  const [workExperience, setWorkExperience] = useState([])
+
+  const addToWorkExperience = () => {
+    let company = getValues('company')
+    let position = getValues('position')
+    let date = getValues('date')
+    let desc = getValues('desc')
+    let obj = {
+      company,
+      position,
+      date,
+      desc,
+    }
+
+    setWorkExperience([...workExperience, obj])
+  }
+
+  const [workExperienceBlockCount, setWorkExperienceBlockCount] = useState(1)
+  const AddMoreWork = () => {
+    setWorkExperienceBlockCount(
+      (prevWorkExperienceNum) => prevWorkExperienceNum + 1,
+    )
+  }
+
   useEffect(() => {
-    console.log(text)
-  }, [dum])
+    console.log(workExperience)
+  }, [workExperienceBlockCount, workExperience])
+
+  // education
+  const [education, setEducation] = useState([])
+  const addToEducation = () => {
+    let school = getValues('school')
+    let degree = getValues('degree')
+    let date = getValues('date')
+    let desc = getValues('desc')
+    let obj = {
+      school,
+      degree,
+      date,
+      desc,
+    }
+
+    setEducation([...education, obj])
+  }
+  const [educationBlockCount, setEducationBlockCount] = useState(1)
+  const AddEducation = () => {
+    setEducationBlockCount((prevEducationNum) => prevEducationNum + 1)
+  }
+
+  // sending all the information to data base
+
+  const PostResume = async () => {
+    let firstName = getValues('firstName')
+    let lastName = getValues('lasName')
+    let jobTitle = getValues('jobTitle')
+    let age = getValues('age')
+    let email = getValues('email')
+    let phoneNumber = getValues('phoneNumber')
+    let gitHub = getValues('github')
+    let linkedIn = getValues('linkedIn')
+    let picturePath = 'greatest photo ever existed on the planet eearth'
+    let jobExperience = workExperience
+
+    let sendingData = {
+      firstName,
+      lastName,
+      jobTitle,
+      age,
+      email,
+      phoneNumber,
+      gitHub,
+      linkedIn,
+      picturePath,
+      jobExperience,
+      education,
+      technologies,
+      location: 'Georgia',
+    }
+
+    console.log(sendingData)
+
+    await axios
+      .post(`${baseUrl}/users/create`, sendingData)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+  }
   return (
     <Context.Provider
       value={{
@@ -91,7 +205,18 @@ export const ContextProvider = ({ children }) => {
         save,
         register,
         getValues,
-        handleClick,
+        handleProgressBar,
+        progressBar,
+        setProgressBar,
+        addSkill,
+        technologies,
+        addToWorkExperience,
+        workExperienceBlockCount,
+        AddMoreWork,
+        AddEducation,
+        educationBlockCount,
+        addToEducation,
+        PostResume,
       }}
     >
       {children}

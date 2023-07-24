@@ -223,3 +223,52 @@ export let mock_data = [
 
 //     },
 //   },
+
+const fake = [
+  {
+    _id: '64be1e5f8548b106b9ee7bd4',
+    jobTitle: 'fullStack Developer',
+    firstName: 'akaki',
+    lastName: 'gumberidze',
+    email: 'akaki7600@gmail.com',
+    phoneNumber: '599112940',
+    picturePath: '',
+    age: 25,
+    location: 'tbilisi',
+    gitHub: 'github.com/fireFsitDev',
+    linkedIn: 'linkedIn.com',
+    jobExperience: [
+      {
+        company: 'betMavrik',
+        position: 'fullStack',
+        date: '2020-09-01- today',
+        desc: 'build casino websites',
+      },
+    ],
+    education: [
+      {
+        school: 'iliauni',
+        degree: 'magister',
+        date: '2016-09-01- 2020-09-01',
+        desc: 'law mgister ',
+      },
+    ],
+    technologies: [
+      'javascript',
+      'TypeScript',
+      'React',
+      'Node',
+      'MongoDB',
+      'MySQL',
+    ],
+  },
+]
+
+export class Job {
+  constructor(company, position, date, description) {
+    this.company = company
+    this.position = position
+    this.date = date
+    this.description = description
+  }
+}
