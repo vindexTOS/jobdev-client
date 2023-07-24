@@ -3,10 +3,13 @@ import { mock_data } from './src/MOCK_DATA/data'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { baseUrl } from './src/globals/url'
+import { storage } from './src/firebase/firebase'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+
 const Context = createContext(null)
 
 export const ContextProvider = ({ children }) => {
-  const { register, getValues, reset } = useForm()
+  const { register, getValues, reset, watch } = useForm()
 
   // data and API calls
   const [data, setData] = useState([])
@@ -88,12 +91,11 @@ export const ContextProvider = ({ children }) => {
     let linkedIn = getValues('linkedIn')
     let BaisicInfoCheck =
       firstName && lastName && jobTitle && age && email ? true : false
-
+    console.log(BaisicInfoCheck)
     if (string === 'next' && progressBar <= 3) {
-      // if (BaisicInfoCheck) {
-
-      setProgressBar((prevProgressBar) => prevProgressBar + 1)
-      // }
+      if (BaisicInfoCheck) {
+        setProgressBar((prevProgressBar) => prevProgressBar + 1)
+      }
     } else if (string === 'back' && progressBar >= 0) {
       setProgressBar((prevProgressBar) => prevProgressBar - 1)
     }
@@ -123,20 +125,11 @@ export const ContextProvider = ({ children }) => {
       date,
       desc,
     }
-
-    setWorkExperience([...workExperience, obj])
+    if (company && position && date && desc) {
+      setWorkExperience([...workExperience, obj])
+      // reset({ company: '', position: '', date: '', desc: '' })
+    }
   }
-
-  const [workExperienceBlockCount, setWorkExperienceBlockCount] = useState(1)
-  const AddMoreWork = () => {
-    setWorkExperienceBlockCount(
-      (prevWorkExperienceNum) => prevWorkExperienceNum + 1,
-    )
-  }
-
-  useEffect(() => {
-    console.log(workExperience)
-  }, [workExperienceBlockCount, workExperience])
 
   // education
   const [education, setEducation] = useState([])
@@ -151,16 +144,75 @@ export const ContextProvider = ({ children }) => {
       date,
       desc,
     }
-
-    setEducation([...education, obj])
-  }
-  const [educationBlockCount, setEducationBlockCount] = useState(1)
-  const AddEducation = () => {
-    setEducationBlockCount((prevEducationNum) => prevEducationNum + 1)
+    if (school && degree && date && desc) {
+      setEducation([...education, obj])
+    }
   }
 
   // sending all the information to data base
 
+  // uploading photo
+  const [image, setImage] = useState(null)
+  const [htmlImg, setHtmlImg] = useState(null)
+  const [imgUrl, setImgUrl] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const imgUpload = (e) => {
+    if (!image) {
+      let newImg = image
+      let newHtmlImg = htmlImg
+      if (e.target.files) {
+        newImg = e.target.files[0]
+        newHtmlImg = URL.createObjectURL(e.target.files[0])
+        setImage(newImg)
+        setHtmlImg(newHtmlImg)
+      }
+    }
+  }
+  const imgUploadDrag = (e) => {
+    e.preventDefault()
+    let newImg = image
+    let newHtmlImg = htmlImg
+    newImg = e.dataTransfer.files[0]
+    newHtmlImg = URL.createObjectURL(e.dataTransfer.files[0])
+    setImage(newImg)
+    setHtmlImg(newHtmlImg)
+  }
+
+  const removeImgFromHtml = () => {
+    setImage(null)
+    setHtmlImg(null)
+  }
+  const uploadFileToFirebaseStorage = async () => {
+    if (image) {
+      const storageRef = ref(storage, 'forum/' + image.name)
+      setLoading(true)
+      setError('')
+      try {
+        const snapshot = await uploadBytesResumable(storageRef, image)
+        const downloadURL = await getDownloadURL(snapshot.ref)
+        setImgUrl(downloadURL)
+        setLoading(false)
+        console.log('succsess')
+
+        removeImgFromHtml()
+      } catch (error) {
+        console.log(error)
+        console.log('ერრორ')
+      }
+    } else {
+      setError('Please Select The File!')
+      setTimeout(() => {
+        setError('')
+      }, 5000)
+    }
+  }
+  useEffect(() => {
+    if (image) {
+      uploadFileToFirebaseStorage()
+    }
+  }, [image])
+  const watchName = watch('firstName')
   const PostResume = async () => {
     let firstName = getValues('firstName')
     let lastName = getValues('lasName')
@@ -170,9 +222,7 @@ export const ContextProvider = ({ children }) => {
     let phoneNumber = getValues('phoneNumber')
     let gitHub = getValues('github')
     let linkedIn = getValues('linkedIn')
-    let picturePath = 'greatest photo ever existed on the planet eearth'
     let jobExperience = workExperience
-
     let sendingData = {
       firstName,
       lastName,
@@ -182,7 +232,7 @@ export const ContextProvider = ({ children }) => {
       phoneNumber,
       gitHub,
       linkedIn,
-      picturePath,
+      picturePath: imgUrl,
       jobExperience,
       education,
       technologies,
@@ -190,12 +240,19 @@ export const ContextProvider = ({ children }) => {
     }
 
     console.log(sendingData)
-
-    await axios
-      .post(`${baseUrl}/users/create`, sendingData)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err))
+    if (firstName) {
+      await axios
+        .post(`${baseUrl}/users/create`, sendingData)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err))
+    } else {
+      console.log(firstName)
+    }
   }
+
+  useEffect(() => {
+    console.log(getValues('firstName'))
+  }, [watchName])
   return (
     <Context.Provider
       value={{
@@ -211,12 +268,15 @@ export const ContextProvider = ({ children }) => {
         addSkill,
         technologies,
         addToWorkExperience,
-        workExperienceBlockCount,
-        AddMoreWork,
-        AddEducation,
-        educationBlockCount,
+
+        workExperience,
         addToEducation,
         PostResume,
+        education,
+        imgUploadDrag,
+        imgUpload,
+        removeImgFromHtml,
+        loading,
       }}
     >
       {children}

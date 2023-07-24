@@ -6,11 +6,11 @@ import WorkInfo from '../components/Resume_components/WorkInfo'
 import EducationInfo from '../components/Resume_components/EducationInfo'
 import Finished from '../components/Resume_components/Finished'
 const register = () => {
-  const { getValues, progressBar, workExperienceBlockCount } = UseMainContext()
+  const { getValues, progressBar, education } = UseMainContext()
   const style = {
     mainDiv: ` ${
-      workExperienceBlockCount > 1 ? 'h-[100%]' : 'h-[100vh]'
-    }  flex flex-col justify-around`,
+      education.length > 1 ? 'h-[100%] ' : 'h-[100vh]'
+    }  flex flex-col justify-around mt-20`,
   }
 
   return (

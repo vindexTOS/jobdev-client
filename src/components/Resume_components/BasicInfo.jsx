@@ -1,10 +1,12 @@
 import React from 'react'
 import Input from '../Input'
 import { UseMainContext } from '../../../context'
+import ImgUpload from '../ImgUpload'
+import LoadingComponent from '../Loading'
 const BasicInfo = () => {
-  const { handleClick, addSkill, technologies } = UseMainContext()
+  const { handleClick, addSkill, technologies, loading } = UseMainContext()
   const style = {
-    mainDiv: `flex flex-col items-center justify-center gap-5 `,
+    mainDiv: `flex flex-col items-center justify-center gap-5     `,
     personal: `flex justify-around w-[100%]`,
     contact: `flex justify-around w-[100%]`,
     inputWrapper: `flex flex-col items-center w-[100%] justify-around gap-10 bg-white p-10 rounded-[8px] shadow-md`,
@@ -16,6 +18,8 @@ const BasicInfo = () => {
     <div className={style.mainDiv}>
       <div className={style.inputWrapper}>
         <h1 className={style.header}>Personal Information</h1>
+        <LoadingComponent loading={loading} />
+        <ImgUpload />
         <div className={style.personal}>
           <Input text="firstName" title="Name" required={true} />
           <Input text="lasName" title="Last Name" required={true} />

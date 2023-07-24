@@ -3,11 +3,7 @@ import Input from '../Input'
 import { BiPlusCircle } from 'react-icons/bi'
 import { UseMainContext } from '../../../context'
 const WorkInfo = () => {
-  const {
-    addToWorkExperience,
-    workExperienceBlockCount,
-    AddMoreWork,
-  } = UseMainContext()
+  const { addToWorkExperience, workExperience } = UseMainContext()
   const style = {
     topDiv: `flex flex-col justify-center w-[100%] h-[100%] gap-10`,
     mainDiv: `flex flex-col items-center justify-center gap-5 `,
@@ -37,21 +33,41 @@ const WorkInfo = () => {
 
   return (
     <div className={style.topDiv}>
-      {new Array(workExperienceBlockCount)
-        .fill(ExperienceBlogComponent)
-        .map((Component, index) => (
-          <Component key={index} />
-        ))}
-
+      <ExperienceBlogComponent />
       <button
         className="text-center flex justify-center items-center"
-        onClick={() => {
-          AddMoreWork(), addToWorkExperience()
-        }}
+        onClick={() => addToWorkExperience()}
       >
-        <p className="text-gray-400">Add More Experience</p>
+        <p className="text-gray-400">Add</p>
         <BiPlusCircle className="text-[#ef4a75] text-[4rem] hover:text-[#ef4a75] " />
       </button>
+      {workExperience.map((val, key) => {
+        const { company, position, desc, date } = val
+        return (
+          <div key={key} className={style.AddedEducation}>
+            <div className={style.personalPostedDiv}>
+              <p className={style.p}>
+                <span className={style.spanName}>Company </span>
+                <span className={style.spanValue}>{company}</span>
+              </p>
+              <p className={style.p}>
+                <span className={style.spanName}>Position </span>
+                <span className={style.spanValue}>{position}</span>
+              </p>
+            </div>
+            <div className={style.personalPostedDiv}>
+              <p className={style.p}>
+                <span className={style.spanName}>Description </span>
+                <span className={style.spanValue}>{desc}</span>
+              </p>
+              <p className={style.p}>
+                <span className={style.spanName}>Date </span>
+                <span className={style.spanValue}>{date}</span>
+              </p>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
