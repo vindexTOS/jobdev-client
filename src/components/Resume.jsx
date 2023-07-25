@@ -15,7 +15,7 @@ const Resume = ({ data }) => {
 
   const [educatoinDrop, setEducationDrop] = useState(false)
   const style = {
-    mainDiv: `border-solid-2 h-[100%] border-black flex flex-col gap-10`,
+    mainDiv: `border-solid-2 h-[100%] border-black flex flex-col gap-10  `,
     infoWrapper: `  relative  w-[100%] justify-around flex  p-5 rounded-[5px]   solid border-black   `,
     header: ` flex  items-center justify-center gap-10 text-center bg-gray-200 p-1 rounded-[5px] shadow-md   text-3xl font-medium font-mono text-gray-500`,
     info: `text-gray-600`,
@@ -115,7 +115,9 @@ const Resume = ({ data }) => {
         </div>
 
         <div
-          className={` relative ${workDrop && 'overflow-hidden h-[130px]'} `}
+          className={` relative  ${
+            workDrop ? 'overflow-hidden h-[130px]' : 'pb-20'
+          } `}
         >
           <div className={` ${workDrop && 'overLay'}`}></div>
           <p
