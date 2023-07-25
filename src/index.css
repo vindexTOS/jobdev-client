@@ -14,3 +14,20 @@
 .animate-slide-in {
   animation: slideIn 0.2s ease;
 }
+
+.overLay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    #e6e6e6a7 90%
+  );
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}

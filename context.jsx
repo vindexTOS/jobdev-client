@@ -102,7 +102,7 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/resume')
+        const response = await axios.get(`${baseUrl}/resume`)
         setData(response.data)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -133,7 +133,7 @@ export const ContextProvider = ({ children }) => {
     setPrevResumeIndex(resumeIndex)
   }
 
-  /// resume saving functionality///////
+  /// resume saving functionality/////// /// local storage////////////////////////////////////////////////////////
 
   const [savedResumes, setSavedResumes] = useState([])
   const [saveErr, setSaveErr] = useState('')
