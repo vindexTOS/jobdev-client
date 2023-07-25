@@ -17,7 +17,6 @@ const ProgressBar = ({ color, stage, progress, handleNext }) => {
           backgroundColor: `${color}`,
           color: !color ? 'gray' : 'white',
         }}
-        onClick={() => handleNext(stage)}
         className="left-[95%] bg-white z-10 absolute bg-transparent w-[2.8rem] h-[2.5rem] rounded-[50%] border-[1px] border-pink-400 flex items-center justify-center"
       >
         {stage}

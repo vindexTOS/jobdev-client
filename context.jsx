@@ -99,22 +99,22 @@ export const ContextProvider = ({ children }) => {
   /////////////////////////////////////////////////////////////////////////////////
   const [data, setData] = useState([])
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:3000/users');
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/resume')
+        setData(response.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
 
-  //   fetchData();
-  // }, []);
+    fetchData()
+  }, [])
 
   useEffect(() => {
-    setData(mock_data)
-  }, [])
+    console.log(data)
+  }, [data])
 
   //   next resume functionality and states
   const [resumeIndex, setresumeIndex] = useState(1)
@@ -164,7 +164,8 @@ export const ContextProvider = ({ children }) => {
   // resume builder functionality /////////////
 
   const [progressBar, setProgressBar] = useState(0)
-
+  const [resumeError, setResumeError] = useState('')
+  const [resumeSuccsess, setResumeSuccsess] = useState('')
   const handleProgressBar = (string) => {
     let firstName = getValues('firstName')
     let lastName = getValues('lasName')
@@ -176,10 +177,16 @@ export const ContextProvider = ({ children }) => {
     let linkedIn = getValues('linkedIn')
     let BaisicInfoCheck =
       firstName && lastName && jobTitle && age && email ? true : false
-    console.log(BaisicInfoCheck)
+
     if (string === 'next' && progressBar <= 3) {
       if (BaisicInfoCheck) {
         setProgressBar((prevProgressBar) => prevProgressBar + 1)
+      } else {
+        setResumeError('Fill out all the fields')
+        setProgressBar((prevProgressBar) => (prevProgressBar = 0))
+        setTimeout(() => {
+          setResumeError('')
+        }, 3000)
       }
     } else if (string === 'back' && progressBar >= 0) {
       setProgressBar((prevProgressBar) => prevProgressBar - 1)
@@ -311,8 +318,12 @@ export const ContextProvider = ({ children }) => {
       uploadFileToFirebaseStorage()
     }
   }, [image])
-  const watchName = watch('firstName')
+
+  const [postError, setPostError] = useState('')
+  const [postLoading, setPostLoading] = useState(false)
+  const [postSuccsess, setPostSuccsess] = useState('')
   const PostResume = async () => {
+    setPostLoading(true)
     let firstName = getValues('firstName')
     let lastName = getValues('lasName')
     let jobTitle = getValues('jobTitle')
@@ -339,19 +350,26 @@ export const ContextProvider = ({ children }) => {
     }
 
     console.log(sendingData)
-    if (firstName) {
+    if (userData) {
       await axios
-        .post(`${baseUrl}/users/create`, sendingData)
+        .post(`${baseUrl}/resume/create/${userData.sub}`, sendingData)
         .then((res) => console.log(res))
-        .catch((err) => console.log(err))
-    } else {
-      console.log(firstName)
+        .catch((err) => {
+          setPostError(err.message)
+          console.log(err)
+        })
+
+      setPostLoading(false)
+      setPostSuccsess('Your resume has been submited succsessfuily')
+      setTimeout(() => {
+        setPostSuccsess('')
+      }, 10000)
     }
   }
 
-  useEffect(() => {
-    console.log(getValues('firstName'))
-  }, [watchName])
+  // useEffect(() => {
+  //   console.log(getValues('firstName'))
+  // }, [watchName])
   return (
     <Context.Provider
       value={{
@@ -369,6 +387,7 @@ export const ContextProvider = ({ children }) => {
         handleProgressBar,
         progressBar,
         setProgressBar,
+        resumeError,
         addSkill,
         technologies,
         addToWorkExperience,
@@ -376,6 +395,9 @@ export const ContextProvider = ({ children }) => {
         workExperience,
         addToEducation,
         PostResume,
+        postSuccsess,
+        postError,
+        postLoading,
         education,
         imgUploadDrag,
         imgUpload,

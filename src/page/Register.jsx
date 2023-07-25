@@ -5,8 +5,9 @@ import ResumeProgressBar from '../components/Resume_components/ResumeProgressBar
 import WorkInfo from '../components/Resume_components/WorkInfo'
 import EducationInfo from '../components/Resume_components/EducationInfo'
 import Finished from '../components/Resume_components/Finished'
+import Error from '../components/Error'
 const register = () => {
-  const { getValues, progressBar, education } = UseMainContext()
+  const { getValues, progressBar, education, resumeError } = UseMainContext()
   const style = {
     mainDiv: ` ${
       education.length > 1 ? 'h-[100%] ' : 'h-[100vh]'
@@ -24,6 +25,7 @@ const register = () => {
       ) : (
         <Finished />
       )}
+      <Error error={resumeError} />
       <ResumeProgressBar />
     </form>
   )
