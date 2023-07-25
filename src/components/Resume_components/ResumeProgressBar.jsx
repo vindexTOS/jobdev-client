@@ -5,7 +5,7 @@ const ProgressBar = ({ color, stage, progress, handleNext }) => {
   return (
     <div className="w-[30%] relative h-[2rem] flex items-center justify-between border-[1px] border-[#fd5564] rounded-[2rem]">
       <div
-        className="w-[100%] transition-all duration-500 rounded-[12px] h-[1.9rem] "
+        className="w-[100%] transition-all duration-1000 rounded-[12px] h-[1.9rem] "
         style={{
           backgroundColor: `${color}`,
 
@@ -38,15 +38,10 @@ const ResumeProgressBar = () => {
 
   // Update progressWidth whenever progressBar changes
   useEffect(() => {
-    setProgressWidth(
-      progressBar === 1
-        ? progressBar * 100
-        : 1 === 2
-        ? 1 * 100
-        : progressBar === 3
-        ? 1 * 100
-        : progressBar * 100,
-    )
+    setProgressWidth(progressBar * 100)
+
+    console.log(progressWidth)
+    console.log(progressBar)
   }, [progressBar])
 
   return (

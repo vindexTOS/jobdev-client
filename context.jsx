@@ -5,13 +5,98 @@ import { useForm } from 'react-hook-form'
 import { baseUrl } from './src/globals/url'
 import { storage } from './src/firebase/firebase'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-
+import jwt from 'jwt-decode'
+import Cookies from 'universal-cookie'
+import { useNavigate } from 'react-router-dom'
 const Context = createContext(null)
 
 export const ContextProvider = ({ children }) => {
   const { register, getValues, reset, watch } = useForm()
-
+  const navigation = useNavigate()
   // data and API calls
+
+  // authentication/ registaration / login / sign in /////////////////////////////////////////////////////////
+
+  const [authPopUp, setAuthPopUp] = useState(false) // opening up authentication form
+  const [userData, setUserData] = useState() //decoded user data from cookies
+  const cookies = new Cookies() // cookie setter and getter package
+  const token = cookies.get('jwt_authorization') // getting token from cookies
+  const [authLoading, setAuthLoading] = useState(false) // loading for registration and logi
+  const handleRegister = async () => {
+    setAuthLoading(true) // setting loading to true
+
+    /// getting state from form hook
+    let password = getValues('password')
+    let confirmPassword = getValues('repeatpassword')
+    let email = getValues('email')
+    // putting state to object
+    let body = {
+      password,
+      confirmPassword,
+      email,
+    }
+    //sending respons
+    const data = await axios
+      .post(`${baseUrl}/user/register`, body)
+      .then((res) => res.data)
+      .catch((err) => console.log(err))
+    // setting up token to header and storing it to cookies
+    const newToken = data.access_token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+    const decoded = jwt(newToken)
+    setUserData(decoded)
+    cookies.set('jwt_authorization', newToken, {
+      expires: new Date(decoded.exp * 1000),
+    })
+
+    // turning off loading and navigating to user page
+    setAuthLoading(false)
+    setAuthPopUp(false)
+    navigation('user')
+  }
+
+  const handleLogin = async () => {
+    setAuthLoading(true)
+    let password = getValues('password')
+    let email = getValues('email')
+    let body = {
+      password,
+      email,
+    }
+
+    const data = await axios
+      .post(`${baseUrl}/user/login`, body)
+      .then((res) => res.data)
+      .catch((err) => console.log(err))
+
+    const newToken = data.access_token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+    const decoded = jwt(newToken)
+    setUserData(decoded)
+
+    cookies.set('jwt_authorization', newToken, {
+      expires: new Date(decoded.exp * 1000),
+    })
+    setAuthLoading(false)
+    setAuthPopUp(false)
+    navigation('user')
+  }
+
+  const logOut = () => {
+    cookies.remove('jwt_authorization')
+  }
+
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+      axios.defaults.headers.common['Content-Type'] = 'application/json'
+      const decoded = jwt(token)
+
+      setUserData(decoded)
+    }
+  }, [token])
+
+  /////////////////////////////////////////////////////////////////////////////////
   const [data, setData] = useState([])
 
   // useEffect(() => {
@@ -270,6 +355,11 @@ export const ContextProvider = ({ children }) => {
   return (
     <Context.Provider
       value={{
+        // auth
+        handleRegister,
+        handleLogin,
+        authLoading,
+        userData,
         data,
         nextUser,
         resumeIndex,
@@ -295,6 +385,8 @@ export const ContextProvider = ({ children }) => {
         RemoveSkill,
         RemoveWork,
         RemoveEducation,
+        authPopUp,
+        setAuthPopUp,
       }}
     >
       {children}
