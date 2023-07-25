@@ -11,7 +11,7 @@ import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from 'react-icons/md'
 import InformationBlock from './InformationBlock'
 import { Link } from 'react-router-dom'
 const Resume = ({ data }) => {
-  const [workDrop, setWorkDrop] = useState(false)
+  const [workDrop, setWorkDrop] = useState(true)
 
   const [educatoinDrop, setEducationDrop] = useState(false)
   const style = {
