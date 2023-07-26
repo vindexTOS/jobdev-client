@@ -10,8 +10,7 @@ import { mock_data } from './src/MOCK_DATA/data'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { baseUrl } from './src/globals/url'
-import { storage } from './src/firebase/firebase'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+
 import jwt from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import { useNavigate } from 'react-router-dom'
@@ -62,64 +61,7 @@ export const ContextProvider = ({ children }) => {
     }
   }
   const [StateAuth, DispatchAuth] = useReducer(AuthReducer, AuthInitalState)
-
-  const handleRegister = async () => {
-    DispatchAuth({ type: 'AUTH_LOADING', payload: true })
-    let body = {
-      password: StateAuth.password,
-      confirmPassword: StateAuth.confirmPassword,
-      email: StateAuth.email,
-    }
-
-    const data = await axios
-      .post(`${baseUrl}/user/register`, body)
-      .then((res) => res.data)
-      .catch((err) => {
-        // DispatchAuth({ type: 'AUTH_ERROR', payload: err.message })
-        console.log(err)
-      })
-    // setting up token to header and storing it to cookies
-    const newToken = data.access_token
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
-    const decoded = jwt(newToken)
-
-    DispatchAuth({ type: 'DECOD_USER', payload: decoded })
-
-    cookies.set('jwt_authorization', newToken, {
-      expires: new Date(decoded.exp * 1000),
-    })
-
-    // turning off loading and navigating to user page
-    DispatchAuth({ type: 'AUTH_LOADING', payload: false })
-    DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
-    // navigation('user')
-  }
-  //login ///////////////////
-  const handleLogin = async () => {
-    DispatchAuth({ type: 'AUTH_LOADING', payload: true })
-    let body = {
-      password: StateAuth.password,
-      email: StateAuth.email,
-    }
-    const data = await axios
-      .post(`${baseUrl}/user/login`, body)
-      .then((res) => res.data)
-      .catch((err) => console.log(err))
-
-    const newToken = data.access_token
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
-    const decoded = jwt(newToken)
-    DispatchAuth({ type: 'DECOD_USER', payload: decoded })
-    cookies.set('jwt_authorization', newToken, {
-      expires: new Date(decoded.exp * 1000),
-    })
-    DispatchAuth({ type: 'AUTH_LOADING', payload: false })
-    DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
-    // navigation('user')
-  }
-  const logOut = () => {
-    cookies.remove('jwt_authorization')
-  }
+  // re setting headers after page reload
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -130,7 +72,6 @@ export const ContextProvider = ({ children }) => {
     }
   }, [token])
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // getting data from server /
 
   const [data, setData] = useState([])
@@ -152,22 +93,9 @@ export const ContextProvider = ({ children }) => {
     console.log(data)
   }, [data])
 
-  //   next resume functionality and states///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //   next resume state ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const [resumeIndex, setresumeIndex] = useState(1)
   const [prevResumeIndex, setPrevResumeIndex] = useState(-1)
-  useEffect(() => {
-    // ვქმნი რენდომულად ინდექს, შემდეგ ვადარებ წინა ინდექს,
-    // თუ წინა ინდექსი ემთხვევა ახალს, თავიდან ვაგენირრებ ახალ რენდომ ინდექს სანამ არ დაემთხვევა ძველს.
-    let newIndex = Math.floor(Math.random() * data.length)
-    while (newIndex === prevResumeIndex) {
-      newIndex = Math.floor(Math.random() * data.length)
-    }
-    setresumeIndex(newIndex)
-  }, [prevResumeIndex])
-  // function to trigger the useEffect above
-  const nextUser = () => {
-    setPrevResumeIndex(resumeIndex)
-  }
 
   /// resume saving functionality/////// /// local storage//////////////////////////////////////////////////////////////////////////////////
 
@@ -200,63 +128,9 @@ export const ContextProvider = ({ children }) => {
   const [image, setImage] = useState(null)
   const [htmlImg, setHtmlImg] = useState(null)
   const [imgUrl, setImgUrl] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const imgUpload = (e) => {
-    if (!image) {
-      let newImg = image
-      let newHtmlImg = htmlImg
-      if (e.target.files) {
-        newImg = e.target.files[0]
-        newHtmlImg = URL.createObjectURL(e.target.files[0])
-        setImage(newImg)
-        setHtmlImg(newHtmlImg)
-      }
-    }
-  }
-  const imgUploadDrag = (e) => {
-    e.preventDefault()
-    let newImg = image
-    let newHtmlImg = htmlImg
-    newImg = e.dataTransfer.files[0]
-    newHtmlImg = URL.createObjectURL(e.dataTransfer.files[0])
-    setImage(newImg)
-    setHtmlImg(newHtmlImg)
-  }
+  const [imgLoading, setImgLoading] = useState(false)
+  const [imgError, setImgError] = useState('')
 
-  const removeImgFromHtml = () => {
-    setImage(null)
-    setHtmlImg(null)
-  }
-  const uploadFileToFirebaseStorage = async () => {
-    if (image) {
-      const storageRef = ref(storage, 'forum/' + image.name)
-      setLoading(true)
-      setError('')
-      try {
-        const snapshot = await uploadBytesResumable(storageRef, image)
-        const downloadURL = await getDownloadURL(snapshot.ref)
-        setImgUrl(downloadURL)
-        setLoading(false)
-        console.log('succsess')
-
-        removeImgFromHtml()
-      } catch (error) {
-        console.log(error)
-        console.log('ერრორ')
-      }
-    } else {
-      setError('Please Select The File!')
-      setTimeout(() => {
-        setError('')
-      }, 5000)
-    }
-  }
-  useEffect(() => {
-    if (image) {
-      uploadFileToFirebaseStorage()
-    }
-  }, [image])
   //resume info ///////////////////////////////////////////////////////////////////////////////////////////
   const ResumeInitialState = {
     // basic info state
@@ -268,7 +142,7 @@ export const ContextProvider = ({ children }) => {
     phoneNumber: '',
     gitHub: '',
     linkedIn: '',
-    location: '',
+    location: 'Georgia',
     picturePath: '',
     //skills
     skill: '',
@@ -409,132 +283,8 @@ export const ContextProvider = ({ children }) => {
     ResumeInitialState,
   )
 
-  // Skills
-
-  const addSkill = () => {
-    if (StateResume.skill) {
-      DispatchResume({ type: 'SKILL_ARRAY', payload: StateResume.skill })
-      DispatchResume({ type: 'SKILL', payload: '' })
-    }
-  }
-  const RemoveSkill = (skill) => {
-    let newArr = StateResume.technologies.filter((val) => val !== skill)
-    DispatchResume({ type: 'SKILL_ARRAY_REMOVE', payload: newArr })
-  }
-
-  // work experience/////////////
-
-  const addToWorkExperience = () => {
-    let obj = {
-      company: StateResume.company,
-      position: StateResume.position,
-      date: StateResume.workDate,
-      desc: StateResume.workDesc,
-    }
-    console.log('clicked')
-    if (obj.company && obj.position && obj.date && obj.desc) {
-      DispatchResume({ type: 'WORK_ARRAY', payload: obj })
-      DispatchResume({ type: 'CLEAR_WORK_OBJECT' })
-    }
-  }
-
-  const RemoveWork = (index) => {
-    let newArr = StateResume.workExperience.filter((val, i) => i !== index)
-    DispatchResume({ type: 'WORK_ARRAY_REMOVE', payload: newArr })
-  }
-
-  // education////////////////////
-  const addToEducation = () => {
-    let obj = {
-      school: StateResume.school,
-      degree: StateResume.degree,
-      date: StateResume.educationDate,
-      desc: StateResume.educationDesc,
-    }
-    if (obj.school && obj.degree && obj.date && obj.desc) {
-      DispatchResume({ type: 'EDUCATION_ARRAY', payload: obj })
-      DispatchResume({ type: 'CLEAN_EDUCATION_OBJECT' })
-    }
-  }
-  const RemoveEducation = (index) => {
-    let newArr = StateResume.education.filter((val, i) => i !== index)
-    DispatchResume({ type: 'EDUCATION_ARRAY_REMOVE', payload: newArr })
-  }
-
-  const PostResume = async () => {
-    DispatchResume({ type: 'POST_LOADING', payload: true })
-
-    let sendingData = {
-      firstName: StateResume.firstName,
-      lastName: StateResume.lastName,
-      jobTitle: StateResume.jobTitle,
-      age: StateResume.age,
-      email: StateResume.email,
-      phoneNumber: StateResume.phoneNumber,
-      gitHub: StateResume.gitHub,
-      linkedIn: StateResume.linkedIn,
-      picturePath: imgUrl,
-      jobExperience: StateResume.workExperience,
-      education: StateResume.education,
-      technologies: StateResume.technologies,
-      location: StateResume.location,
-    }
-
-    console.log(sendingData)
-    if (StateAuth.userData.sub) {
-      await axios
-        .post(`${baseUrl}/resume/create/${StateAuth.userData.sub}`, sendingData)
-        .then((res) => console.log(res))
-        .catch((err) => {
-          DispatchResume({ type: 'POST_ERROR', payload: err.message })
-
-          console.log(err)
-        })
-      DispatchResume({ type: 'POST_LOADING', payload: false })
-
-      DispatchResume({
-        type: 'POST_SUCCESS',
-        payload: 'Your resume has been submited succsessfuily',
-      })
-
-      setTimeout(() => {
-        DispatchResume({ type: 'POST_SUCCESS', payload: '' })
-      }, 10000)
-    }
-  }
-
-  // resume progress bar
-
+  // progressBar UI element counter ////
   const [progressBar, setProgressBar] = useState(0)
-  const [resumeError, setResumeError] = useState('')
-  const handleProgressBar = (string) => {
-    let BaisicInfoCheck =
-      StateResume.firstName &&
-      StateResume.lastName &&
-      StateResume.jobTitle &&
-      StateResume.age &&
-      StateResume.email
-        ? true
-        : false
-
-    if (string === 'next' && progressBar <= 3) {
-      if (BaisicInfoCheck) {
-        setProgressBar((prevProgressBar) => prevProgressBar + 1)
-      } else {
-        DispatchResume({
-          type: 'POST_ERROR',
-          payload: 'Fill out all the fields',
-        })
-
-        setProgressBar((prevProgressBar) => (prevProgressBar = 0))
-        setTimeout(() => {
-          DispatchResume({ type: 'POST_ERROR', payload: '' })
-        }, 3000)
-      }
-    } else if (string === 'back' && progressBar >= 0) {
-      setProgressBar((prevProgressBar) => prevProgressBar - 1)
-    }
-  }
 
   return (
     <Context.Provider
@@ -543,37 +293,37 @@ export const ContextProvider = ({ children }) => {
         //auth state
         StateAuth,
         DispatchAuth,
+        token,
+        cookies,
 
-        handleRegister,
-        handleLogin,
         //resume
         StateResume,
         DispatchResume,
+        // main data
         data,
-        nextUser,
-        resumeIndex,
+        // local storage
         save,
-        register,
-        getValues,
-        handleProgressBar,
+
+        // ui
         progressBar,
         setProgressBar,
-        resumeError,
-        addSkill,
 
-        addToWorkExperience,
-
-        addToEducation,
-        PostResume,
-
-        imgUploadDrag,
-        imgUpload,
-        removeImgFromHtml,
-        loading,
+        // IMAGE UPLOAD STATE
+        image,
+        setImage,
+        htmlImg,
+        setHtmlImg,
         imgUrl,
-        RemoveSkill,
-        RemoveWork,
-        RemoveEducation,
+        setImgUrl,
+        imgLoading,
+        setImgLoading,
+        imgError,
+        setImgError,
+        // find next dev by random STATE
+        resumeIndex,
+        prevResumeIndex,
+        setPrevResumeIndex,
+        setresumeIndex,
       }}
     >
       {children}

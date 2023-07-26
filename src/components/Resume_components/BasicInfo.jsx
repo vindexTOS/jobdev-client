@@ -4,14 +4,7 @@ import { UseMainContext } from '../../../context'
 import ImgUpload from '../ImgUpload'
 import LoadingComponent from '../Loading'
 const BasicInfo = () => {
-  const {
-    addSkill,
-    technologies,
-    loading,
-    RemoveSkill,
-    StateResume,
-    DispatchResume,
-  } = UseMainContext()
+  const { imgLoading, DispatchResume, StateResume } = UseMainContext()
   const style = {
     mainDiv: `flex flex-col items-center justify-center gap-5  h-[100vh]    `,
     topDiv: `w-[100%] flex justify-around`,
@@ -23,6 +16,18 @@ const BasicInfo = () => {
     skills: `flex flex-col justify-center gap-10 items-center w-[100%] relative`,
     addBtn: `py-3 px-4 mt-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800`,
   }
+
+  const addSkill = () => {
+    if (StateResume.skill) {
+      DispatchResume({ type: 'SKILL_ARRAY', payload: StateResume.skill })
+      DispatchResume({ type: 'SKILL', payload: '' })
+    }
+  }
+  const RemoveSkill = (skill) => {
+    let newArr = StateResume.technologies.filter((val) => val !== skill)
+    DispatchResume({ type: 'SKILL_ARRAY_REMOVE', payload: newArr })
+  }
+
   return (
     <div className={style.mainDiv}>
       <div className={style.inputWrapper}>
@@ -30,7 +35,7 @@ const BasicInfo = () => {
         <div className={style.topDiv}>
           <div className={style.photoDiv}>
             <p className="text-gray-400 font-mono text-[1rem] ">Upload Photo</p>
-            <LoadingComponent loading={loading} />
+            <LoadingComponent loading={imgLoading} />
             <ImgUpload />
           </div>
           <div className={style.personal}>

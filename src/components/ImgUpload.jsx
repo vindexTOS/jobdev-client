@@ -1,17 +1,78 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UseMainContext } from '../../context'
 import { TbPhotoX } from 'react-icons/tb'
 import userDefault from '../assets/photos/userdefault.jpg'
 import { MdCameraEnhance } from 'react-icons/md'
+import { storage } from '../firebase/firebase'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 const ImgUpload = () => {
   const {
-    imgUploadDrag,
-    imgUpload,
-    removeImgFromHtml,
+    image,
+    setImage,
     htmlImg,
+    setHtmlImg,
     imgUrl,
-  } = UseMainContext()
+    setImgUrl,
 
+    setImgLoading,
+
+    setImgError,
+  } = UseMainContext()
+  const imgUpload = (e) => {
+    if (!image) {
+      let newImg = image
+      let newHtmlImg = htmlImg
+      if (e.target.files) {
+        newImg = e.target.files[0]
+        newHtmlImg = URL.createObjectURL(e.target.files[0])
+        setImage(newImg)
+        setHtmlImg(newHtmlImg)
+      }
+    }
+  }
+  const imgUploadDrag = (e) => {
+    e.preventDefault()
+    let newImg = image
+    let newHtmlImg = htmlImg
+    newImg = e.dataTransfer.files[0]
+    newHtmlImg = URL.createObjectURL(e.dataTransfer.files[0])
+    setImage(newImg)
+    setHtmlImg(newHtmlImg)
+  }
+
+  const removeImgFromHtml = () => {
+    setImage(null)
+    setHtmlImg(null)
+  }
+  const uploadFileToFirebaseStorage = async () => {
+    if (image) {
+      const storageRef = ref(storage, 'forum/' + image.name)
+      setImgLoading(true)
+      setImgError('')
+      try {
+        const snapshot = await uploadBytesResumable(storageRef, image)
+        const downloadURL = await getDownloadURL(snapshot.ref)
+        setImgUrl(downloadURL)
+        setImgLoading(false)
+        console.log('succsess')
+
+        removeImgFromHtml()
+      } catch (error) {
+        console.log(error)
+        console.log('ერრორ')
+      }
+    } else {
+      setImgError('Please Select The File!')
+      setTimeout(() => {
+        setImgError('')
+      }, 5000)
+    }
+  }
+  useEffect(() => {
+    if (image) {
+      uploadFileToFirebaseStorage()
+    }
+  }, [image])
   const [hover, setHover] = React.useState(false)
   const handleDragOver = (e) => {
     e.preventDefault()

@@ -3,16 +3,70 @@ import { UseMainContext } from '../../../context'
 import LoadingComponent from '../Loading'
 import { useForm } from 'react-hook-form'
 import useOutClick from '../../hooks/useOutClick'
+import axios from 'axios'
 import Error from '../Error'
+import jwt from 'jwt-decode'
+import { baseUrl } from '../../globals/url'
 const Auth = () => {
-  const {
-    handleRegister,
-    handleLogin,
-    StateAuth,
-    DispatchAuth,
-  } = UseMainContext()
+  const { token, cookies, StateAuth, DispatchAuth } = UseMainContext()
   const authPopUpRef = useRef(null)
+  const handleRegister = async () => {
+    DispatchAuth({ type: 'AUTH_LOADING', payload: true })
+    let body = {
+      password: StateAuth.password,
+      confirmPassword: StateAuth.confirmPassword,
+      email: StateAuth.email,
+    }
 
+    const data = await axios
+      .post(`${baseUrl}/user/register`, body)
+      .then((res) => res.data)
+      .catch((err) => {
+        // DispatchAuth({ type: 'AUTH_ERROR', payload: err.message })
+        console.log(err)
+      })
+    // setting up token to header and storing it to cookies
+    const newToken = data.access_token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+    const decoded = jwt(newToken)
+
+    DispatchAuth({ type: 'DECOD_USER', payload: decoded })
+
+    cookies.set('jwt_authorization', newToken, {
+      expires: new Date(decoded.exp * 1000),
+    })
+
+    // turning off loading and navigating to user page
+    DispatchAuth({ type: 'AUTH_LOADING', payload: false })
+    DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
+    // navigation('user')
+  }
+  //login ///////////////////
+  const handleLogin = async () => {
+    DispatchAuth({ type: 'AUTH_LOADING', payload: true })
+    let body = {
+      password: StateAuth.password,
+      email: StateAuth.email,
+    }
+    const data = await axios
+      .post(`${baseUrl}/user/login`, body)
+      .then((res) => res.data)
+      .catch((err) => console.log(err))
+
+    const newToken = data.access_token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+    const decoded = jwt(newToken)
+    DispatchAuth({ type: 'DECOD_USER', payload: decoded })
+    cookies.set('jwt_authorization', newToken, {
+      expires: new Date(decoded.exp * 1000),
+    })
+    DispatchAuth({ type: 'AUTH_LOADING', payload: false })
+    DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
+    // navigation('user')
+  }
+  const logOut = () => {
+    cookies.remove('jwt_authorization')
+  }
   const popUpHanndler = () => {
     DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
   }

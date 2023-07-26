@@ -39,12 +39,24 @@ const ExperienceBlogComponent = () => {
   )
 }
 const EducationInfo = () => {
-  const {
-    addToEducation,
+  const { DispatchResume, StateResume } = UseMainContext()
 
-    RemoveEducation,
-    StateResume,
-  } = UseMainContext()
+  const addToEducation = () => {
+    let obj = {
+      school: StateResume.school,
+      degree: StateResume.degree,
+      date: StateResume.educationDate,
+      desc: StateResume.educationDesc,
+    }
+    if (obj.school && obj.degree && obj.date && obj.desc) {
+      DispatchResume({ type: 'EDUCATION_ARRAY', payload: obj })
+      DispatchResume({ type: 'CLEAN_EDUCATION_OBJECT' })
+    }
+  }
+  const RemoveEducation = (index) => {
+    let newArr = StateResume.education.filter((val, i) => i !== index)
+    DispatchResume({ type: 'EDUCATION_ARRAY_REMOVE', payload: newArr })
+  }
   const style = {
     topDiv: `flex flex-col justify-center w-[100%] h-[100%] gap-10`,
     mainDiv: `flex flex-col items-center justify-center gap-5 `,

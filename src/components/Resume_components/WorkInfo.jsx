@@ -36,7 +36,26 @@ const ExperienceBlogComponent = () => {
   )
 }
 const WorkInfo = () => {
-  const { addToWorkExperience, StateResume, RemoveWork } = UseMainContext()
+  const { StateResume, DispatchResume } = UseMainContext()
+
+  const addToWorkExperience = () => {
+    let obj = {
+      company: StateResume.company,
+      position: StateResume.position,
+      date: StateResume.workDate,
+      desc: StateResume.workDesc,
+    }
+
+    if (obj.company && obj.position && obj.date && obj.desc) {
+      DispatchResume({ type: 'WORK_ARRAY', payload: obj })
+      DispatchResume({ type: 'CLEAR_WORK_OBJECT' })
+    }
+  }
+
+  const RemoveWork = (index) => {
+    let newArr = StateResume.workExperience.filter((val, i) => i !== index)
+    DispatchResume({ type: 'WORK_ARRAY_REMOVE', payload: newArr })
+  }
   const style = {
     topDiv: `flex flex-col justify-center w-[100%] h-[100%] gap-10`,
     mainDiv: `flex flex-col items-center justify-center gap-5 `,

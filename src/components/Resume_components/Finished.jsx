@@ -4,15 +4,53 @@ import Succsess from '../Succsess'
 import Error from '../Error'
 import LoadingComponent from '../Loading'
 const Finished = () => {
-  const {
-    PostResume,
-    StateResume,
-    postLoading,
-    postSuccsess,
-  } = UseMainContext()
+  const { StateResume, DispatchResume } = UseMainContext()
   const style = {
     topDiv: `flex flex-col items-center justify-center w-[100%] h-[100vh] gap-10`,
   }
+
+  const PostResume = async () => {
+    DispatchResume({ type: 'POST_LOADING', payload: true })
+
+    let sendingData = {
+      firstName: StateResume.firstName,
+      lastName: StateResume.lastName,
+      jobTitle: StateResume.jobTitle,
+      age: StateResume.age,
+      email: StateResume.email,
+      phoneNumber: StateResume.phoneNumber,
+      gitHub: StateResume.gitHub,
+      linkedIn: StateResume.linkedIn,
+      picturePath: imgUrl,
+      jobExperience: StateResume.workExperience,
+      education: StateResume.education,
+      technologies: StateResume.technologies,
+      location: StateResume.location,
+    }
+
+    console.log(sendingData)
+    if (StateAuth.userData.sub) {
+      await axios
+        .post(`${baseUrl}/resume/create/${StateAuth.userData.sub}`, sendingData)
+        .then((res) => console.log(res))
+        .catch((err) => {
+          DispatchResume({ type: 'POST_ERROR', payload: err.message })
+
+          console.log(err)
+        })
+      DispatchResume({ type: 'POST_LOADING', payload: false })
+
+      DispatchResume({
+        type: 'POST_SUCCESS',
+        payload: 'Your resume has been submited succsessfuily',
+      })
+
+      setTimeout(() => {
+        DispatchResume({ type: 'POST_SUCCESS', payload: '' })
+      }, 10000)
+    }
+  }
+
   return (
     <div className={style.topDiv}>
       <p className="text-gray-400 text-[2rem]">

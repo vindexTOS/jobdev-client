@@ -26,8 +26,47 @@ const ProgressBar = ({ color, stage, progress, handleNext }) => {
 }
 
 const ResumeProgressBar = () => {
-  const { handleProgressBar, progressBar, setProgressBar } = UseMainContext()
+  const {
+    StateResume,
+    DispatchResume,
+    progressBar,
+    setProgressBar,
+  } = UseMainContext()
+
+  // resume progress bar  UI element
+
+  const [resumeError, setResumeError] = useState('')
+  const handleProgressBar = (string) => {
+    let BaisicInfoCheck =
+      StateResume.firstName &&
+      StateResume.lastName &&
+      StateResume.jobTitle &&
+      StateResume.age &&
+      StateResume.email
+        ? true
+        : false
+
+    if (string === 'next' && progressBar <= 3) {
+      if (BaisicInfoCheck) {
+        setProgressBar((prevProgressBar) => prevProgressBar + 1)
+      } else {
+        DispatchResume({
+          type: 'POST_ERROR',
+          payload: 'Fill out all the fields',
+        })
+
+        setProgressBar((prevProgressBar) => (prevProgressBar = 0))
+        setTimeout(() => {
+          DispatchResume({ type: 'POST_ERROR', payload: '' })
+        }, 3000)
+      }
+    } else if (string === 'back' && progressBar >= 0) {
+      setProgressBar((prevProgressBar) => prevProgressBar - 1)
+    }
+  }
+
   const [progressWidth, setProgressWidth] = useState(0)
+
   const style = {
     btnWrapper: `flex w-[100%] items-center justify-around  `,
   }
