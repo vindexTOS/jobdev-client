@@ -3,24 +3,23 @@ import { UseMainContext } from '../../../context'
 import LoadingComponent from '../Loading'
 import { useForm } from 'react-hook-form'
 import useOutClick from '../../hooks/useOutClick'
+import Error from '../Error'
 const Auth = () => {
   const {
-    register,
-    authLoading,
     handleRegister,
     handleLogin,
-    authPopUp,
-    setAuthPopUp,
+    StateAuth,
+    DispatchAuth,
   } = UseMainContext()
   const authPopUpRef = useRef(null)
 
   const popUpHanndler = () => {
-    setAuthPopUp(false)
+    DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
   }
   useOutClick(authPopUpRef, popUpHanndler)
   const style = {
-    section: `w-[100vw] h-[100vh] bg-black/30 absolute top-[-3rem] flex items-center justify-center ${
-      authPopUp ? '' : 'hidden'
+    section: `w-[100vw] h-[100vh] bg-black/30 absolute top-[-3rem] flex items-center justify-center z-50 ${
+      StateAuth.authPopUp ? '' : 'hidden'
     }`,
     img: `w-[60px]`,
 
@@ -46,7 +45,9 @@ const Auth = () => {
         <div className={style.inputDivWrapper}>
           <div className={style.inputDiv}>
             <input
-              {...register('email')}
+              onChange={(e) =>
+                DispatchAuth({ type: 'EMAIL', payload: e.target.value })
+              }
               className="outline-none"
               type="email"
               placeholder="Email"
@@ -54,7 +55,9 @@ const Auth = () => {
           </div>
           <div className={style.inputDiv}>
             <input
-              {...register('password')}
+              onChange={(e) =>
+                DispatchAuth({ type: 'PASSWORD', payload: e.target.value })
+              }
               className="outline-none"
               type="password"
               placeholder="Password"
@@ -63,7 +66,12 @@ const Auth = () => {
           {registerSwitch && (
             <div className={style.inputDiv}>
               <input
-                {...register('repeatpassword')}
+                onChange={(e) =>
+                  DispatchAuth({
+                    type: 'CONFIRM_PASSWORD',
+                    payload: e.target.value,
+                  })
+                }
                 className="outline-none"
                 type="password"
                 placeholder="Re-peat password"
@@ -79,7 +87,8 @@ const Auth = () => {
               Login
             </button>
           )}
-          <LoadingComponent loading={authLoading} />
+          <LoadingComponent loading={DispatchAuth.authLoading} />
+          <Error error={StateAuth.authError} />
         </div>
 
         {!registerSwitch ? (

@@ -4,7 +4,12 @@ import Succsess from '../Succsess'
 import Error from '../Error'
 import LoadingComponent from '../Loading'
 const Finished = () => {
-  const { PostResume, postError, postLoading, postSuccsess } = UseMainContext()
+  const {
+    PostResume,
+    StateResume,
+    postLoading,
+    postSuccsess,
+  } = UseMainContext()
   const style = {
     topDiv: `flex flex-col items-center justify-center w-[100%] h-[100vh] gap-10`,
   }
@@ -24,9 +29,9 @@ const Finished = () => {
         <span className="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-purple-600 from-blue-500"></span>
         <span className="relative">Submit</span>
       </a>
-      <LoadingComponent loading={postLoading} />
-      <Succsess succsess={postSuccsess} />
-      <Error error={postError} />
+      <LoadingComponent loading={StateResume.postLoading} />
+      <Succsess succsess={StateResume.postSuccsess} />
+      <Error error={StateResume.postError} />
     </div>
   )
 }

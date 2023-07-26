@@ -2,8 +2,15 @@ import React, { useEffect, useRef } from 'react'
 
 import { UseMainContext } from '../../context'
 
-const Input = ({ text, title, type, required, miniTitle }) => {
-  const { register, getValues } = UseMainContext()
+const Input = ({
+  stateType,
+  dispatchType,
+  title,
+  type,
+  required,
+  miniTitle,
+}) => {
+  const { StateResume, DispatchResume } = UseMainContext()
   const style = {
     mainDiv: `w-72 `,
     inputWrapper: `relative h-10 w-full min-w-[200px]`,
@@ -17,9 +24,14 @@ const Input = ({ text, title, type, required, miniTitle }) => {
       <div className={style.inputWrapper}>
         <input
           required={required}
-          // value={getValues(String(text))}
+          value={StateResume[stateType]}
           type={type ? type : 'text'}
-          {...register(String(text))}
+          onChange={(e) =>
+            DispatchResume({
+              type: String(dispatchType),
+              payload: e.target.value,
+            })
+          }
           className={style.input}
           placeholder=" "
         />

@@ -4,7 +4,14 @@ import { UseMainContext } from '../../../context'
 import ImgUpload from '../ImgUpload'
 import LoadingComponent from '../Loading'
 const BasicInfo = () => {
-  const { addSkill, technologies, loading, RemoveSkill } = UseMainContext()
+  const {
+    addSkill,
+    technologies,
+    loading,
+    RemoveSkill,
+    StateResume,
+    DispatchResume,
+  } = UseMainContext()
   const style = {
     mainDiv: `flex flex-col items-center justify-center gap-5  h-[100vh]    `,
     topDiv: `w-[100%] flex justify-around`,
@@ -28,13 +35,15 @@ const BasicInfo = () => {
           </div>
           <div className={style.personal}>
             <Input
-              text="firstName"
+              dispatchType="FIRST_NAME"
+              stateType="firstName"
               title="Name"
               required={true}
               miniTitle="Legal name*"
             />
             <Input
-              text="lasName"
+              dispatchType="LAST_NAME"
+              stateType="lastName"
               title="Last Name"
               required={true}
               miniTitle="Family name*"
@@ -42,28 +51,48 @@ const BasicInfo = () => {
           </div>
           <div className={style.personal}>
             <Input
-              text="jobTitle"
+              dispatchType="JOB_TITLE"
+              stateType="jobTitle"
               title="Job Title"
               required={true}
               miniTitle=""
             />
-            <Input text="age" title="Age" type="number" required={true} />
+            <Input
+              dispatchType="AGE"
+              stateType="age"
+              title="Age"
+              type="number"
+              required={true}
+            />
           </div>
         </div>
       </div>
       <div className={style.inputWrapper}>
         <h1 className={style.header}>Contact Information And Links</h1>
         <div className={style.contact}>
-          <Input text="email" title="Email" required={true} />
-          <Input text="phoneNumber" title="Phone" />
+          <Input
+            dispatchType="EMAIL"
+            stateType="email"
+            title="Email"
+            required={true}
+          />
+          <Input
+            dispatchType="PHONE_NUMBER"
+            stateType="phoneNumber"
+            title="Phone"
+          />
         </div>
         <div className={style.contact}>
-          <Input text="github" title="GitHub" />
-          <Input text="linkedIn" title="LinkedIn" />
+          <Input dispatchType="GITHUB" stateType="gitHub" title="GitHub" />
+          <Input
+            dispatchType="LINKEDIN"
+            stateType="linkedIn"
+            title="LinkedIn"
+          />
         </div>
         <div className={style.skills}>
           <div className="flex w-[100%] h-[100%] items-center justify-center gap-10">
-            <Input text="skill" title="Skills" />
+            <Input dispatchType="SKILL" stateType="skill" title="Skills" />
             <button
               className={style.addBtn}
               type="button"
@@ -72,9 +101,9 @@ const BasicInfo = () => {
               ADD SKILL
             </button>
           </div>
-          {technologies.length >= 1 && (
+          {StateResume.technologies.length >= 1 && (
             <div className="flex gap-2 w-[300px] flex-wrap absolute ml-[10rem] bg-[#fd5564]/70 shadow-md p-2 rounded-[9px] absolute  top-2 left-[-5rem]  z-20">
-              {technologies.map((val) => {
+              {StateResume.technologies.map((val) => {
                 return (
                   <div
                     onClick={() => RemoveSkill(val)}

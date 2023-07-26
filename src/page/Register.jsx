@@ -7,10 +7,10 @@ import EducationInfo from '../components/Resume_components/EducationInfo'
 import Finished from '../components/Resume_components/Finished'
 import Error from '../components/Error'
 const register = () => {
-  const { getValues, progressBar, education, resumeError } = UseMainContext()
+  const { getValues, progressBar, education, StateResume } = UseMainContext()
   const style = {
     mainDiv: ` ${
-      education.length > 1 ? 'h-[100%] ' : 'h-[100vh]'
+      StateResume.education.length > 1 ? 'h-[100%] ' : 'h-[100vh]'
     }  flex flex-col justify-around mt-20`,
   }
 
@@ -25,7 +25,7 @@ const register = () => {
       ) : (
         <Finished />
       )}
-      <Error error={resumeError} />
+      <Error error={StateResume.postError} />
       <ResumeProgressBar />
     </form>
   )
