@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
 import { UseMainContext } from '../../context'
 import Resume from '../components/Resume'
+import axios from 'axios'
+import { baseUrl } from '../globals/url'
 const FindDev = () => {
   const {
     data,
-    resumeIndex,
+    setData,
+
     prevResumeIndex,
-    setPrevResumeIndex,
+
     setresumeIndex,
     save,
   } = UseMainContext()
@@ -27,8 +30,13 @@ const FindDev = () => {
     setresumeIndex(newIndex)
   }, [prevResumeIndex])
   // function to trigger the useEffect above
-  const nextUser = () => {
-    setPrevResumeIndex(resumeIndex)
+  const nextUser = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/resume`)
+      setData(response.data)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
   }
   if (data.length === 0) {
     return <div>Loading...</div>
@@ -36,12 +44,9 @@ const FindDev = () => {
 
   return (
     <div className={style.mainDiv}>
-      <Resume data={data[resumeIndex]} />
+      <Resume data={data} />
       <div className={style.btnWrapper}>
-        <button
-          onClick={() => save(data[resumeIndex])}
-          className={style.savebtn}
-        >
+        <button onClick={() => save(data)} className={style.savebtn}>
           Save
         </button>
         <button className={style.nextbtn} onClick={nextUser}>

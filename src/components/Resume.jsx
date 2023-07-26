@@ -9,6 +9,7 @@ import { GrPhone } from 'react-icons/gr'
 import { BiBriefcase } from 'react-icons/bi'
 import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from 'react-icons/md'
 import InformationBlock from './InformationBlock'
+import userdefault from '../assets/photos/userdefault.jpg'
 import { Link } from 'react-router-dom'
 const Resume = ({ data }) => {
   const [workDrop, setWorkDrop] = useState(true)
@@ -39,7 +40,10 @@ const Resume = ({ data }) => {
         </h1>
 
         <div className={style.imgWrapper}>
-          <img className={style.img} src={data.picturePath} />
+          <img
+            className={style.img}
+            src={data.picturePath ? data.picturePath : userdefault}
+          />
           <div>
             <h1 className={style.nameHeader}>
               {data.firstName} {data.lastName}
@@ -78,7 +82,7 @@ const Resume = ({ data }) => {
             </div>
             <Link className="text-gray-500" to={data.linkedIn}>
               Linkden
-            </Link>{' '}
+            </Link>
           </div>
           <div className={style.iconWrapper}>
             <div className={style.icon}>

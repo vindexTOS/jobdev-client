@@ -295,9 +295,10 @@ export const ContextProvider = ({ children }) => {
         DispatchResume,
         // main data
         data,
+        setData,
         // local storage
         save,
-
+        savedResumes,
         // ui
         progressBar,
         setProgressBar,
