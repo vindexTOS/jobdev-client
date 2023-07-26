@@ -87,16 +87,12 @@ export const ContextProvider = ({ children }) => {
     console.log(data)
   }, [data])
 
-  //   next resume state ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const [resumeIndex, setresumeIndex] = useState(1)
-  const [prevResumeIndex, setPrevResumeIndex] = useState(-1)
-
   /// resume saving functionality/////// /// local storage//////////////////////////////////////////////////////////////////////////////////
 
   const [savedResumes, setSavedResumes] = useState([])
   const [saveErr, setSaveErr] = useState('')
   const save = (data) => {
-    const isDuplicate = savedResumes.some((resume) => resume.id === data.id)
+    const isDuplicate = savedResumes.some((resume) => resume._id === data._id)
     if (!isDuplicate) {
       const updatedResumes = [...savedResumes, data]
       setSavedResumes(updatedResumes)
@@ -314,11 +310,6 @@ export const ContextProvider = ({ children }) => {
         setImgLoading,
         imgError,
         setImgError,
-        // find next dev by random STATE
-        resumeIndex,
-        prevResumeIndex,
-        setPrevResumeIndex,
-        setresumeIndex,
       }}
     >
       {children}

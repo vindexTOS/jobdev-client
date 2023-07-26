@@ -20,15 +20,6 @@ const FindDev = () => {
     nextbtn: `text-white w-[9rem] h-[3rem]  bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm shadow-lg  text-center`,
   }
 
-  useEffect(() => {
-    // ვქმნი რენდომულად ინდექს, შემდეგ ვადარებ წინა ინდექს,
-    // თუ წინა ინდექსი ემთხვევა ახალს, თავიდან ვაგენირრებ ახალ რენდომ ინდექს სანამ არ დაემთხვევა ძველს.
-    let newIndex = Math.floor(Math.random() * data.length)
-    while (newIndex === prevResumeIndex) {
-      newIndex = Math.floor(Math.random() * data.length)
-    }
-    setresumeIndex(newIndex)
-  }, [prevResumeIndex])
   // function to trigger the useEffect above
   const nextUser = async () => {
     try {
