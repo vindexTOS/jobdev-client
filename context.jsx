@@ -3,22 +3,16 @@ import {
   useContext,
   useState,
   useEffect,
-  useRef,
   useReducer,
 } from 'react'
-import { mock_data } from './src/MOCK_DATA/data'
 import axios from 'axios'
-import { useForm } from 'react-hook-form'
 import { baseUrl } from './src/globals/url'
 
 import jwt from 'jwt-decode'
 import Cookies from 'universal-cookie'
-import { useNavigate } from 'react-router-dom'
 const Context = createContext(null)
 
 export const ContextProvider = ({ children }) => {
-  const { register, getValues, reset, watch } = useForm()
-  const navigation = useNavigate()
   const cookies = new Cookies() // cookie setter and getter package
   const token = cookies.get('jwt_authorization') // getting token from cookies
   // authentication/ registaration / login / sign in ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
