@@ -9,7 +9,7 @@ const SaveDevDropDown = () => {
   const navigation = useNavigate()
   const style = {
     mainDiv: ` fixed z-50    left-10 top-9   flex flex-col   `,
-    img: ` floating-img  relative  w-[50px]  cursor-pointer   transform  text-[1.2rem] animate-slide-in   z-50`,
+    img: ` floating-img  relative   shadow-lg p-3 rounded-[50%]  w-[70px]  cursor-pointer   transform  text-[1.2rem] animate-slide-in   z-50`,
   }
   const [dropDown, setDropDown] = useState(false)
   const dropRef = useRef()
@@ -24,7 +24,7 @@ const SaveDevDropDown = () => {
     <div className={style.mainDiv}>
       <div className={style.img}>
         <img onClick={() => setDropDown(!dropDown)} src={Disk} />
-        <div className="bg-green-400 absolute top-8  rounded-[50%] text-white  items-center justify-center flex  w-[1.4rem]  h-[1.4rem]">
+        <div className="bg-green-400 absolute top-10  rounded-[50%] text-white  items-center justify-center flex  w-[1.4rem]  h-[1.4rem]">
           {savedResumes.length}
         </div>
       </div>

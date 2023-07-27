@@ -13,7 +13,7 @@ const Filter = ({ onMouseEnter, onMouseLeave }) => {
     <div
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className="  font-sans h-[120px] w-[200px] absolute  left-[12rem] top-[40%] z-50 rounded-md flex flex-col"
+      className="   h-[120px] w-[200px] absolute  left-[12rem] top-[40%] z-50 rounded-md flex flex-col"
     >
       <div className={style.mappedDiv}>
         {FixedArray.map((val) => {

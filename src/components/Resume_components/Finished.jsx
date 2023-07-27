@@ -5,12 +5,13 @@ import Error from '../Error'
 import LoadingComponent from '../Loading'
 import axios from 'axios'
 import { baseUrl } from '../../globals/url'
+import { useNavigate } from 'react-router-dom'
 const Finished = () => {
   const { StateResume, StateAuth, DispatchResume, imgUrl } = UseMainContext()
   const style = {
     topDiv: `flex flex-col items-center justify-center w-[100%] h-[100vh] gap-10`,
   }
-
+  const navigate = useNavigate()
   const PostResume = async () => {
     DispatchResume({ type: 'POST_LOADING', payload: true })
 
@@ -46,10 +47,10 @@ const Finished = () => {
         type: 'POST_SUCCESS',
         payload: 'Your resume has been submited succsessfuily',
       })
-
+      navigate('/')
       setTimeout(() => {
         DispatchResume({ type: 'POST_SUCCESS', payload: '' })
-      }, 10000)
+      }, 2000)
     }
   }
 

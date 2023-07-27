@@ -3,14 +3,17 @@ import { UseMainContext } from '../../context'
 import Resume from '../components/Resume'
 import axios from 'axios'
 import { baseUrl } from '../globals/url'
+import { TiDelete } from 'react-icons/ti'
+import { FaHeart } from 'react-icons/fa'
 import FindDevSkeleton from '../components/Loading_skeletons/FindDevSkeleton'
+import Succsess from '../components/Succsess'
 const FindDev = () => {
-  const { data, setData, save, StateData } = UseMainContext()
+  const { data, setData, save, StateData, saveMsg } = UseMainContext()
   const style = {
     mainDiv: `h-[100%] gap-10  flex flex-col justify-around`,
     btnWrapper: `w-[100%] flex pt-2  items-center justify-around`,
-    savebtn: `text-white w-[9rem] h-[3rem] bg-gradient-to-br from-green-400 to-green-500 hover:bg-gradient-to-bl focus:ring-2  focus:outline-none focus:ring-green-200 font-medium rounded-lg text-sm text-center shadow-lg `,
-    nextbtn: `text-white w-[9rem] h-[3rem]  bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm shadow-lg  text-center`,
+    savebtn: ` text-[#fd5564] hover:text-[#fe6c85] text-[6rem] cursor-pointer `,
+    nextbtn: `  bg-green-300 text-white p-2 rounded-[50%] w-[60px] h-[60px] flex items-center justify-center  text-[2.3rem] cursor-pointer`,
   }
   const [skeletonLoad, setSkeletonLoad] = React.useState(false)
 
@@ -32,7 +35,7 @@ const FindDev = () => {
   if (skeletonLoad) {
     setTimeout(() => {
       setSkeletonLoad(false)
-    }, 1000)
+    }, 600)
     return <FindDevSkeleton />
   } else {
     return (
@@ -40,13 +43,13 @@ const FindDev = () => {
         <Resume data={data} />
         {/* <button onClick={() => console.log(data)}>CLIC</button> */}
         <div className={style.btnWrapper}>
-          <button onClick={() => save(data)} className={style.savebtn}>
-            Save
-          </button>
-          <button className={style.nextbtn} onClick={nextUser}>
-            Next
-          </button>
+          <TiDelete className={style.savebtn} onClick={nextUser} />
+
+          <div className={style.nextbtn} onClick={() => save(data)}>
+            <FaHeart />
+          </div>
         </div>
+        <Succsess succsess={saveMsg} />
       </div>
     )
   }

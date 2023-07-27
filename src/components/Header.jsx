@@ -10,7 +10,7 @@ import { MdFilterList } from 'react-icons/md'
 const Header = () => {
   const { DispatchAuth, StateAuth, userResumeData } = UseMainContext()
   const style = {
-    mainDiv: ` relative bg-[#fd5564] h-[5rem] p-10    flex items-center justify-around  text-gray-100 rounded-[5px] shadow-md  `,
+    mainDiv: ` relative  headerColor h-[6rem] p-10    flex items-center justify-around  text-gray-100 rounded-[50px] shadow-md  `,
   }
   const showFitlerMenu = () => {
     setFilterDisplay(true)

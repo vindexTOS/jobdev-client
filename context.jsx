@@ -124,19 +124,22 @@ export const ContextProvider = ({ children }) => {
   // }, [data])
 
   /// resume saving functionality/////// /// local storage//////////////////////////////////////////////////////////////////////////////////
-
   const [savedResumes, setSavedResumes] = useState([])
-  const [saveErr, setSaveErr] = useState('')
+  const [saveMsg, setSaveMsg] = useState('')
   const save = (data) => {
     const isDuplicate = savedResumes.some((resume) => resume._id === data._id)
     if (!isDuplicate) {
       const updatedResumes = [...savedResumes, data]
       setSavedResumes(updatedResumes)
+      setSaveMsg('Resume Added')
+      setTimeout(() => {
+        setSaveMsg('')
+      }, 3000)
       localStorage.setItem('resumes', JSON.stringify(updatedResumes))
     } else {
-      setSaveErr('Resume already on your list')
+      setSaveMsg('Resume already on your list')
       setTimeout(() => {
-        setSaveErr('')
+        setSaveMsg('')
       }, 3000)
     }
   }
@@ -339,6 +342,7 @@ export const ContextProvider = ({ children }) => {
         save,
         savedResumes,
         RemoveFromLocalStorage,
+        saveMsg,
         // ui
         progressBar,
         setProgressBar,
