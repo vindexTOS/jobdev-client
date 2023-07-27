@@ -6,11 +6,20 @@ import userdefault from '../assets/photos/userdefault.jpg'
 import Filter from './Filter'
 import UserDropDown from './UserDropDown'
 import { BsSearchHeart } from 'react-icons/bs'
-import { MdFilterList } from 'react-icons/md'
+import { MdFilterList, MdZoomOutMap, MdZoomInMap } from 'react-icons/md'
+
 const Header = () => {
-  const { DispatchAuth, StateAuth, userResumeData } = UseMainContext()
+  const {
+    DispatchAuth,
+    StateAuth,
+    userResumeData,
+    zoomIn,
+    setZoomIn,
+  } = UseMainContext()
   const style = {
-    mainDiv: ` relative  headerColor h-[6rem] p-10    flex items-center justify-around  text-gray-100 rounded-[50px] shadow-md  `,
+    mainDiv: `${
+      zoomIn ? '' : 'rounded-[50px]'
+    } relative  headerColor h-[6rem] p-10    flex items-center justify-around  text-gray-100  shadow-md  `,
   }
   const showFitlerMenu = () => {
     setFilterDisplay(true)
@@ -76,6 +85,15 @@ const Header = () => {
           )}
         </div>
       )}
+      <div
+        onClick={() => setZoomIn(!zoomIn)}
+        className="absolute text-[2rem] flex items-center justify-center cursor-pointer right-10"
+      >
+        <MdZoomInMap
+          title="Zoom in"
+          className="hover:text-[2.5rem]  transition-all duration-300"
+        />
+      </div>
       <Auth />
       {filterDisplay && (
         <Filter onMouseEnter={showFitlerMenu} onMouseLeave={hideFilterMenu} />

@@ -319,7 +319,8 @@ export const ContextProvider = ({ children }) => {
 
   // progressBar UI element counter ////
   const [progressBar, setProgressBar] = useState(0)
-
+  // zoom in
+  const [zoomIn, setZoomIn] = useState(false)
   return (
     <Context.Provider
       value={{
@@ -346,7 +347,8 @@ export const ContextProvider = ({ children }) => {
         // ui
         progressBar,
         setProgressBar,
-
+        zoomIn,
+        setZoomIn,
         // IMAGE UPLOAD STATE
         image,
         setImage,

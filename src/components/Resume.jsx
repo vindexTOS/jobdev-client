@@ -13,13 +13,16 @@ import userdefault from '../assets/photos/userdefault.jpg'
 import { PiFolderOpenFill } from 'react-icons/pi'
 import { Link, useParams } from 'react-router-dom'
 import { baseUrl } from '../globals/url'
+import { UseMainContext } from '../../context'
 
 const Resume = ({ data }) => {
   const [workDrop, setWorkDrop] = useState(true)
-
+  const { zoomIn } = UseMainContext()
   const [educatoinDrop, setEducationDrop] = useState(false)
   const style = {
-    mainDiv: ` relative pt-[6rem] border-solid-2 h-[600px] overflow-y-scroll border-black flex flex-col gap-10  `,
+    mainDiv: ` relative pt-[6rem] border-solid-2 ${
+      zoomIn ? ' laptop:h-[520px]' : ' laptop:h-[400px]'
+    }  h-[600px] overflow-y-scroll border-black flex flex-col gap-10  `,
     infoWrapper: `  relative  w-[100%] justify-around flex  p-5 rounded-[5px]   solid border-black   `,
     header: ` flex  items-center justify-center gap-10 text-center bg-gray-200 p-1 rounded-[5px] shadow-md   text-3xl font-medium font-mono text-gray-500`,
     info: `text-gray-600`,
@@ -107,7 +110,7 @@ const Resume = ({ data }) => {
               <AiFillLinkedin className="text-[#0072b1]" />
             </div>
             <Link target="_blank" className="text-gray-500" to={data.linkedIn}>
-              Linkden
+              Linkedin
             </Link>
           </div>
           <div className={style.iconWrapper}>
@@ -139,7 +142,7 @@ const Resume = ({ data }) => {
             <div className={style.icon}>
               <BiBriefcase />
             </div>
-            <h1>Work Experince</h1>
+            <h1>Work Experience</h1>
             <div className={style.btnWrapper}>
               {workDrop ? <MdOutlineArrowDropDown /> : <MdOutlineArrowDropUp />}
             </div>

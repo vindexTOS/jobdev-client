@@ -8,11 +8,15 @@ import { FaHeart } from 'react-icons/fa'
 import FindDevSkeleton from '../components/Loading_skeletons/FindDevSkeleton'
 import Succsess from '../components/Succsess'
 const FindDev = () => {
-  const { data, setData, save, StateData, saveMsg } = UseMainContext()
+  const { data, setData, save, StateData, saveMsg, zoomIn } = UseMainContext()
   const style = {
-    mainDiv: `h-[100%] gap-10  flex flex-col justify-around`,
-    btnWrapper: `w-[100%] flex pt-2  items-center justify-around`,
-    savebtn: ` text-[#fd5564] hover:text-[#fe6c85] text-[6rem] cursor-pointer `,
+    mainDiv: `h-[100%]   flex flex-col justify-between`,
+    btnWrapper: `w-[100%] flex items-center justify-around ${
+      zoomIn ? '  ' : ' pt-2'
+    }`,
+    savebtn: `${
+      zoomIn ? '' : ''
+    } text-[#fd5564] hover:text-[#fe6c85] text-[6rem] cursor-pointer `,
     nextbtn: `  bg-green-300 text-white p-2 rounded-[50%] w-[60px] h-[60px] flex items-center justify-center  text-[2.3rem] cursor-pointer`,
   }
   const [skeletonLoad, setSkeletonLoad] = React.useState(false)
