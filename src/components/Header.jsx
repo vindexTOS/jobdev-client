@@ -5,6 +5,8 @@ import { UseMainContext } from '../../context'
 import userdefault from '../assets/photos/userdefault.jpg'
 import Filter from './Filter'
 import UserDropDown from './UserDropDown'
+import { BsSearchHeart } from 'react-icons/bs'
+import { MdFilterList } from 'react-icons/md'
 const Header = () => {
   const { DispatchAuth, StateAuth, userResumeData } = UseMainContext()
   const style = {
@@ -26,10 +28,16 @@ const Header = () => {
         onMouseEnter={showFitlerMenu}
         onMouseLeave={hideFilterMenu}
       >
-        <button>Filter</button>
+        <button className="flex  items-center font-mono justify-around w-[9rem] text-[1.4rem]">
+          <MdFilterList className="text-[2rem]" />
+          Filter
+        </button>
       </div>
-      <button onClick={() => navigation('/')} className="text-4xl font-mono	">
-        FindDev
+      <button
+        onClick={() => navigation('/')}
+        className="text-4xl font-mono	 font-mono flex items-center justify-around"
+      >
+        FindDev <BsSearchHeart />
       </button>
       {!StateAuth.userData.sub ? (
         <button

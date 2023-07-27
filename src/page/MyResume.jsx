@@ -24,9 +24,9 @@ const MyResume = () => {
     fetchData()
   }, [devId])
 
-  useEffect(() => {
-    console.log(resumeData)
-  }, [resumeData])
+  // useEffect(() => {
+  //   console.log(resumeData)
+  // }, [resumeData])
   if (loading) {
     return <FindDevSkeleton />
   } else if (resumeData && resumeData[0]) {

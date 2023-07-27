@@ -6,6 +6,7 @@ import FindDev from './page/FindDev'
 import User from './page/User'
 import IndividualDevFullInfo from './components/Saved_Dev_components/IndividualDevFullInfo'
 import MyResume from './page/MyResume'
+import NotFoundPage from './components/NotFoundPage'
 function App() {
   return (
     <Routes>
@@ -15,6 +16,7 @@ function App() {
         <Route path="myprofile" element={<User />} />
         <Route path="developer/:devId" element={<IndividualDevFullInfo />} />
         <Route path="user/:devId" element={<MyResume />} />
+        <Route path="*" component={<NotFoundPage />} />
       </Route>
     </Routes>
   )

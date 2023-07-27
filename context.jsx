@@ -88,7 +88,7 @@ export const ContextProvider = ({ children }) => {
         const response = await axios.get(
           `${baseUrl}/resume?jobTitle=${StateData.filterQuery}`,
         )
-        console.log(response.data)
+        // console.log(response.data)
         setData(response.data)
       } catch (error) {
         console.error('Error fetching data:', error.message)
@@ -115,9 +115,9 @@ export const ContextProvider = ({ children }) => {
       fetchData()
     }
   }, [StateAuth.userData])
-  useEffect(() => {
-    console.log(StateAuth.userData.sub)
-  }, [StateAuth.userData])
+  // useEffect(() => {
+  //   console.log(StateAuth.userData.sub)
+  // }, [StateAuth.userData])
 
   // useEffect(() => {
   //   console.log(data)
@@ -232,6 +232,8 @@ export const ContextProvider = ({ children }) => {
           technologies: [...state.technologies, action.payload],
         }
       }
+      case 'SKILL_ARRAY_REMOVE':
+        return { ...state, technologies: action.payload }
 
       case 'COMPANY':
         return { ...state, company: action.payload }

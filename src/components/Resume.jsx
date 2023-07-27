@@ -10,13 +10,16 @@ import { BiBriefcase } from 'react-icons/bi'
 import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from 'react-icons/md'
 import InformationBlock from './InformationBlock'
 import userdefault from '../assets/photos/userdefault.jpg'
-import { Link } from 'react-router-dom'
+import { PiFolderOpenFill } from 'react-icons/pi'
+import { Link, useParams } from 'react-router-dom'
+import { baseUrl } from '../globals/url'
+
 const Resume = ({ data }) => {
   const [workDrop, setWorkDrop] = useState(true)
 
   const [educatoinDrop, setEducationDrop] = useState(false)
   const style = {
-    mainDiv: `border-solid-2 h-[100%] border-black flex flex-col gap-10  `,
+    mainDiv: ` relative border-solid-2 h-[100%] border-black flex flex-col gap-10  `,
     infoWrapper: `  relative  w-[100%] justify-around flex  p-5 rounded-[5px]   solid border-black   `,
     header: ` flex  items-center justify-center gap-10 text-center bg-gray-200 p-1 rounded-[5px] shadow-md   text-3xl font-medium font-mono text-gray-500`,
     info: `text-gray-600`,
@@ -28,9 +31,32 @@ const Resume = ({ data }) => {
     iconWrapper: `flex  items-center justify-center text-[1.2rem] gap-2`,
     skillsDiv: `pt-10`,
   }
+  // const [copy, setCopy] = React.useState('')
+  // function copyToClipboard() {
+  //   navigator.clipboard
+  //     .writeText(`${baseUrl}/user/${data.owner}`)
+  //     .then(() => setCopy('Copied!'))
+  //     .catch((error) =>
+  //       console.error('Error copying text to clipboard:', error),
+  //     )
+  //   setTimeout(() => {
+  //     setCopy('')
+  //   }, 2000)
+  // }
+  const { devId } = useParams()
 
+  const checkResume = devId === data.owner
   return (
     <div className={style.mainDiv}>
+      {!checkResume && (
+        <Link
+          to={`user/${data.owner}`}
+          className="absolute top-[-5rem]  text-[1.2rem] text-blue-400  flex items-center justify-around w-[200px] "
+        >
+          <span> Go To Resume</span>{' '}
+          <PiFolderOpenFill className="text-yellow-500 text-[1.6rem]" />
+        </Link>
+      )}
       <div className={style.infoWrapper}>
         <h1 className={`${style.header}  w-[90%] absolute top-[-3rem] `}>
           <div className={style.icon}>
