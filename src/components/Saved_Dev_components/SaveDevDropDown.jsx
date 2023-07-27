@@ -30,7 +30,7 @@ const SaveDevDropDown = () => {
 
       {dropDown && (
         <div ref={dropRef} className="flex flex-col ">
-          {savedResumes.map((val) => {
+          {savedResumes?.map((val) => {
             const { firstName, lastName, picturePath } = val
             return (
               <div

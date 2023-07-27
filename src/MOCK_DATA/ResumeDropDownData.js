@@ -1,0 +1,28 @@
+export const JobTitleSelect = [
+  { title: 'Full-Stack Developer', _id: 1 },
+  { title: 'Front-End Developer', _id: 2 },
+  { title: 'Back-End Developer', _id: 3 },
+]
+export const CitySelect = [
+  { title: 'Tbilisi', _id: 1 },
+  { title: 'Kutaisi', _id: 2 },
+  { title: 'Batumi', _id: 3 },
+  { title: 'Rustavi', _id: 4 },
+  { title: 'Gori', _id: 5 },
+  { title: 'Zugdidi', _id: 6 },
+  { title: 'Poti', _id: 7 },
+  { title: 'Telavi', _id: 8 },
+  { title: 'Khashuri', _id: 9 },
+  { title: 'Samtredia', _id: 10 },
+  { title: 'Senaki', _id: 11 },
+  { title: 'Marneuli', _id: 12 },
+  { title: 'Kobuleti', _id: 13 },
+  { title: 'Gori', _id: 14 },
+  { title: 'Batumi', _id: 15 },
+  { title: 'Zestaponi', _id: 16 },
+  { title: 'Poti', _id: 17 },
+  { title: 'Tsqaltubo', _id: 18 },
+  { title: 'Kaspi', _id: 19 },
+  { title: 'Rustavi', _id: 20 },
+  { title: 'Telavi', _id: 21 },
+]

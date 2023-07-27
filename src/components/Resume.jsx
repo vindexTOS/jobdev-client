@@ -55,9 +55,9 @@ const Resume = ({ data }) => {
             <div className={style.skillsDiv}>
               <p className="text-[1.5rem] text-gray-900">Skills</p>
               <div className="flex flex-wrap gap-1 w-[230px]">
-                {data.technologies.map((val, key) => (
+                {data?.technologies?.map((val, index) => (
                   <div
-                    key={val + key}
+                    key={String(index)}
                     className=" shadow-md text-blue-400 p-1 text-[15px] rounded-[9px] bg-gray-100"
                   >
                     {val}
@@ -133,9 +133,9 @@ const Resume = ({ data }) => {
             Read more...
           </p>
 
-          {data.jobExperience.map((elem, key) => {
+          {data?.jobExperience?.map((elem, index) => {
             return (
-              <div key={elem.compay + key} className={style.infoWrapper}>
+              <div key={String(index)} className={style.infoWrapper}>
                 <div className="w-[100%] px-3">
                   <h1 className="text-gray-900 text-[1.5rem] font-bold">
                     {elem.position}
@@ -183,9 +183,9 @@ const Resume = ({ data }) => {
           >
             Read more...
           </p>
-          {data.education?.map((elem, key) => {
+          {data?.education?.map((elem, index) => {
             return (
-              <div key={elem.school + key} className={style.infoWrapper}>
+              <div key={String(index)} className={style.infoWrapper}>
                 <div className="w-[100%] px-3">
                   <h1 className="text-gray-900 text-[1.5rem] font-bold">
                     {elem.degree}

@@ -8,9 +8,6 @@ const FindDev = () => {
     data,
     setData,
 
-    prevResumeIndex,
-
-    setresumeIndex,
     save,
   } = UseMainContext()
   const style = {

@@ -3,6 +3,8 @@ import Input from '../Input'
 import { UseMainContext } from '../../../context'
 import ImgUpload from '../ImgUpload'
 import LoadingComponent from '../Loading'
+import DropDownSelect from '../DropDownSelect'
+import { JobTitleSelect, CitySelect } from '../../MOCK_DATA/ResumeDropDownData'
 const BasicInfo = () => {
   const { imgLoading, DispatchResume, StateResume } = UseMainContext()
   const style = {
@@ -55,12 +57,17 @@ const BasicInfo = () => {
             />
           </div>
           <div className={style.personal}>
-            <Input
-              dispatchType="JOB_TITLE"
+            <DropDownSelect
+              filterData={JobTitleSelect}
               stateType="jobTitle"
-              title="Job Title"
-              required={true}
-              miniTitle=""
+              defaultString="Job"
+              type="JOB_TITLE"
+            />
+            <DropDownSelect
+              filterData={CitySelect}
+              stateType="location"
+              defaultString="location"
+              type="LOCATION"
             />
             <Input
               dispatchType="AGE"

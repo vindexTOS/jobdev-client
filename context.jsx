@@ -132,7 +132,7 @@ export const ContextProvider = ({ children }) => {
     phoneNumber: '',
     gitHub: '',
     linkedIn: '',
-    location: 'Georgia',
+    location: '',
     picturePath: '',
     //skills
     skill: '',
