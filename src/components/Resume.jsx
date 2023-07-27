@@ -42,7 +42,7 @@ const Resume = ({ data }) => {
         <div className={style.imgWrapper}>
           <img
             className={style.img}
-            src={data.picturePath ? data.picturePath : userdefault}
+            src={data?.picturePath ? data?.picturePath : userdefault}
           />
           <div>
             <h1 className={style.nameHeader}>

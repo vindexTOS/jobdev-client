@@ -4,12 +4,7 @@ import Resume from '../components/Resume'
 import axios from 'axios'
 import { baseUrl } from '../globals/url'
 const FindDev = () => {
-  const {
-    data,
-    setData,
-
-    save,
-  } = UseMainContext()
+  const { data, setData, save, StateData } = UseMainContext()
   const style = {
     mainDiv: `h-[100%] gap-10  flex flex-col justify-around`,
     btnWrapper: `w-[100%] flex pt-2  items-center justify-around`,
@@ -20,19 +15,24 @@ const FindDev = () => {
   // function to trigger the useEffect above
   const nextUser = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/resume`)
+      const response = await axios.get(
+        `${baseUrl}/resume?jobTitle=${StateData.filterQuery}`,
+      )
       setData(response.data)
     } catch (error) {
-      console.error('Error fetching data:', error)
+      console.error('Error fetching data:', error.message)
     }
+    console.log(StateData.filterQuery)
   }
-  if (data.length === 0) {
+
+  if (!data) {
     return <div>Loading...</div>
   }
 
   return (
     <div className={style.mainDiv}>
       <Resume data={data} />
+      {/* <button onClick={() => console.log(data)}>CLIC</button> */}
       <div className={style.btnWrapper}>
         <button onClick={() => save(data)} className={style.savebtn}>
           Save

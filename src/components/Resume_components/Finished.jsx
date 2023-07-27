@@ -28,7 +28,6 @@ const Finished = () => {
       location: StateResume.location,
     }
 
-    console.log(sendingData)
     if (StateAuth.userData.sub) {
       await axios
         .post(`${baseUrl}/resume/create/${StateAuth.userData.sub}`, sendingData)

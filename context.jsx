@@ -68,20 +68,33 @@ export const ContextProvider = ({ children }) => {
 
   // getting data from server /
 
-  const [data, setData] = useState([])
+  const DataInitialState = {
+    filterQuery: ``,
+  }
+  const DataReducer = (state, action) => {
+    switch (action.type) {
+      case 'FILTER_QUERY':
+        return { ...state, filterQuery: action.payload }
 
+      default:
+        return state
+    }
+  }
+  const [data, setData] = useState()
+  const [StateData, DispatchData] = useReducer(DataReducer, DataInitialState)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/resume`)
+        const response = await axios.get(
+          `${baseUrl}/resume?jobTitle=${StateData.filterQuery}`,
+        )
         setData(response.data)
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching data:', error.message)
       }
     }
-
     fetchData()
-  }, [])
+  }, [StateData.filterQuery])
 
   useEffect(() => {
     console.log(data)
@@ -111,7 +124,10 @@ export const ContextProvider = ({ children }) => {
       setSavedResumes(parsedResumes)
     }
   }, [])
-
+  const RemoveFromLocalStorage = (_id) => {
+    let newArr = savedResumes.filter((val) => val._id !== _id)
+    setSavedResumes(newArr)
+  }
   //
 
   // uploading photo  to fire base /////// sending all the information to data base //////////////////// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,9 +308,12 @@ export const ContextProvider = ({ children }) => {
         // main data
         data,
         setData,
+        StateData,
+        DispatchData,
         // local storage
         save,
         savedResumes,
+        RemoveFromLocalStorage,
         // ui
         progressBar,
         setProgressBar,
