@@ -1,17 +1,20 @@
 import React from 'react'
 import { UseMainContext } from '../../context'
-
+import Resume from '../components/Resume'
 const User = () => {
-  const { StateAuth } = UseMainContext()
+  const { StateAuth, userResumeData } = UseMainContext()
 
   if (!StateAuth.userData.sub) {
     return <div>Login or Register</div>
   }
-  return (
-    <div>
-      <button onClick={() => console.log(StateAuth.userData)}>Click</button>
-    </div>
-  )
+
+  if (userResumeData && userResumeData[0]) {
+    return (
+      <div>
+        <Resume data={userResumeData[0]} />
+      </div>
+    )
+  }
 }
 
 export default User

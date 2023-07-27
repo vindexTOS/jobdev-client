@@ -78,8 +78,8 @@ const ResumeProgressBar = () => {
   useEffect(() => {
     setProgressWidth(progressBar * 100)
 
-    console.log(progressWidth)
-    console.log(progressBar)
+    // console.log(progressWidth)
+    // console.log(progressBar)
   }, [progressBar])
 
   return (

@@ -3,8 +3,10 @@ import { UseMainContext } from '../../../context'
 import Succsess from '../Succsess'
 import Error from '../Error'
 import LoadingComponent from '../Loading'
+import axios from 'axios'
+import { baseUrl } from '../../globals/url'
 const Finished = () => {
-  const { StateResume, DispatchResume } = UseMainContext()
+  const { StateResume, StateAuth, DispatchResume, imgUrl } = UseMainContext()
   const style = {
     topDiv: `flex flex-col items-center justify-center w-[100%] h-[100vh] gap-10`,
   }
@@ -26,6 +28,7 @@ const Finished = () => {
       education: StateResume.education,
       technologies: StateResume.technologies,
       location: StateResume.location,
+      owner: StateAuth.userData.sub,
     }
 
     if (StateAuth.userData.sub) {

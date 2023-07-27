@@ -64,9 +64,7 @@ const Auth = () => {
     DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
     // navigation('user')
   }
-  const logOut = () => {
-    cookies.remove('jwt_authorization')
-  }
+
   const popUpHanndler = () => {
     DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
   }

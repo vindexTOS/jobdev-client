@@ -21,7 +21,7 @@ const SaveDevDropDown = () => {
   useOutClick(dropRef, handleDropDown)
 
   return (
-    <div onClick={() => console.log(savedResumes)} className={style.mainDiv}>
+    <div className={style.mainDiv}>
       <div className={style.img}>
         <img onClick={() => setDropDown(!dropDown)} src={Disk} />
         <div className="bg-green-400 absolute top-8  rounded-[50%] text-white  items-center justify-center flex  w-[1.4rem]  h-[1.4rem]">

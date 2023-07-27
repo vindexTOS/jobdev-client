@@ -88,6 +88,7 @@ export const ContextProvider = ({ children }) => {
         const response = await axios.get(
           `${baseUrl}/resume?jobTitle=${StateData.filterQuery}`,
         )
+        console.log(response.data)
         setData(response.data)
       } catch (error) {
         console.error('Error fetching data:', error.message)
@@ -96,9 +97,31 @@ export const ContextProvider = ({ children }) => {
     fetchData()
   }, [StateData.filterQuery])
 
+  const [userResumeData, setUserResumeData] = useState()
+
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    if (StateAuth.userData.sub) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            `${baseUrl}/resume/${StateAuth.userData.sub}`,
+          )
+
+          setUserResumeData(response.data)
+        } catch (error) {
+          console.error('Error fetching data:', error.message)
+        }
+      }
+      fetchData()
+    }
+  }, [StateAuth.userData])
+  useEffect(() => {
+    console.log(StateAuth.userData.sub)
+  }, [StateAuth.userData])
+
+  // useEffect(() => {
+  //   console.log(data)
+  // }, [data])
 
   /// resume saving functionality/////// /// local storage//////////////////////////////////////////////////////////////////////////////////
 
@@ -301,7 +324,7 @@ export const ContextProvider = ({ children }) => {
         DispatchAuth,
         token,
         cookies,
-
+        userResumeData,
         //resume
         StateResume,
         DispatchResume,

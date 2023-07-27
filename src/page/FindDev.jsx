@@ -32,7 +32,7 @@ const FindDev = () => {
   if (skeletonLoad) {
     setTimeout(() => {
       setSkeletonLoad(false)
-    }, 2000)
+    }, 1000)
     return <FindDevSkeleton />
   } else {
     return (
