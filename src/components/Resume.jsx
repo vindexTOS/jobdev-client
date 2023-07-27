@@ -72,7 +72,7 @@ const Resume = ({ data }) => {
             <div className={style.icon}>
               <ImGithub className="text-[#c9510c]" />
             </div>
-            <Link className="text-gray-500" to={data.gitHub}>
+            <Link target="_blank" className="text-gray-500" to={data.gitHub}>
               Github
             </Link>
           </div>
@@ -80,7 +80,7 @@ const Resume = ({ data }) => {
             <div className={style.icon}>
               <AiFillLinkedin className="text-[#0072b1]" />
             </div>
-            <Link className="text-gray-500" to={data.linkedIn}>
+            <Link target="_blank" className="text-gray-500" to={data.linkedIn}>
               Linkden
             </Link>
           </div>
