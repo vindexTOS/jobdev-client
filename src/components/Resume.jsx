@@ -19,7 +19,7 @@ const Resume = ({ data }) => {
 
   const [educatoinDrop, setEducationDrop] = useState(false)
   const style = {
-    mainDiv: ` relative border-solid-2 h-[100%] border-black flex flex-col gap-10  `,
+    mainDiv: ` relative pt-[6rem] border-solid-2 h-[600px] overflow-y-scroll border-black flex flex-col gap-10  `,
     infoWrapper: `  relative  w-[100%] justify-around flex  p-5 rounded-[5px]   solid border-black   `,
     header: ` flex  items-center justify-center gap-10 text-center bg-gray-200 p-1 rounded-[5px] shadow-md   text-3xl font-medium font-mono text-gray-500`,
     info: `text-gray-600`,
@@ -51,7 +51,7 @@ const Resume = ({ data }) => {
       {!checkResume && (
         <Link
           to={`user/${data.owner}`}
-          className="absolute top-[-5rem]  text-[1.2rem] text-blue-400  flex items-center justify-around w-[200px] "
+          className="absolute top-[-2px]  text-[1.2rem] text-blue-400  flex items-center justify-around w-[200px] "
         >
           <span> Go To Resume</span>{' '}
           <PiFolderOpenFill className="text-yellow-500 text-[1.6rem]" />
@@ -130,103 +130,109 @@ const Resume = ({ data }) => {
           </div>
         </div>
       </div>
-      <section className="relative">
-        <div
-          onClick={() => setWorkDrop(!workDrop)}
-          className={`${style.header} cursor-pointer`}
-        >
-          <div className={style.icon}>
-            <BiBriefcase />
-          </div>
-          <h1>Work Experince</h1>
-          <div className={style.btnWrapper}>
-            {workDrop ? <MdOutlineArrowDropDown /> : <MdOutlineArrowDropUp />}
-          </div>
-        </div>
-
-        <div
-          className={` relative  ${
-            workDrop ? 'overflow-hidden h-[130px]' : 'pb-20'
-          } `}
-        >
-          <div className={` ${workDrop && 'overLay'}`}></div>
-          <p
+      {data?.jobExperience.length > 0 && (
+        <section className="relative">
+          <div
             onClick={() => setWorkDrop(!workDrop)}
-            className={`  ${
-              !workDrop && 'hidden'
-            }   z-50 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
+            className={`${style.header} cursor-pointer`}
           >
-            Read more...
-          </p>
-
-          {data?.jobExperience?.map((elem, index) => {
-            return (
-              <div key={String(index)} className={style.infoWrapper}>
-                <div className="w-[100%] px-3">
-                  <h1 className="text-gray-900 text-[1.5rem] font-bold">
-                    {elem.position}
-                  </h1>
-                  <h2 className="text-gray-600 text-[1.1rem] font-medium">
-                    {elem.company}
-                  </h2>
-                  <h3 className="text-yellow-300 font-bold">{elem.date}</h3>
-                  <p className="break-words text-gray-400">{elem.desc}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </section>
-      <section>
-        <div
-          onClick={() => setEducationDrop(!educatoinDrop)}
-          className={`${style.header} cursor-pointer`}
-        >
-          <div className={style.icon}>
-            <TbSchool />
+            <div className={style.icon}>
+              <BiBriefcase />
+            </div>
+            <h1>Work Experince</h1>
+            <div className={style.btnWrapper}>
+              {workDrop ? <MdOutlineArrowDropDown /> : <MdOutlineArrowDropUp />}
+            </div>
           </div>
 
-          <h1>Education </h1>
-          <div className={style.btnWrapper}>
-            {!educatoinDrop ? (
-              <MdOutlineArrowDropDown />
-            ) : (
-              <MdOutlineArrowDropUp />
-            )}
+          <div
+            className={` relative  ${
+              workDrop ? 'overflow-hidden h-[130px]' : 'pb-20'
+            } `}
+          >
+            <div className={` ${workDrop && 'overLay'}`}></div>
+            <p
+              onClick={() => setWorkDrop(!workDrop)}
+              className={`  ${
+                !workDrop && 'hidden'
+              }   z-50 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
+            >
+              Read more...
+            </p>
+
+            <>
+              {data?.jobExperience?.map((elem, index) => {
+                return (
+                  <div key={String(index)} className={style.infoWrapper}>
+                    <div className="w-[100%] px-3">
+                      <h1 className="text-gray-900 text-[1.5rem] font-bold">
+                        {elem.position}
+                      </h1>
+                      <h2 className="text-gray-600 text-[1.1rem] font-medium">
+                        {elem.company}
+                      </h2>
+                      <h3 className="text-yellow-300 font-bold">{elem.date}</h3>
+                      <p className="break-words text-gray-400">{elem.desc}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </>
           </div>
-        </div>
-        <div
-          className={` relative ${
-            !educatoinDrop && 'overflow-hidden h-[100px]'
-          } `}
-        >
-          <div className={` ${!educatoinDrop && 'overLay'}`}></div>
-          <p
+        </section>
+      )}
+      {data?.education.length > 0 && (
+        <section>
+          <div
             onClick={() => setEducationDrop(!educatoinDrop)}
-            className={`  ${
-              educatoinDrop && 'hidden'
-            }   z-50 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
+            className={`${style.header} cursor-pointer`}
           >
-            Read more...
-          </p>
-          {data?.education?.map((elem, index) => {
-            return (
-              <div key={String(index)} className={style.infoWrapper}>
-                <div className="w-[100%] px-3">
-                  <h1 className="text-gray-900 text-[1.5rem] font-bold">
-                    {elem.degree}
-                  </h1>
-                  <h2 className="text-gray-600 text-[1.1rem] font-medium">
-                    {elem.school}
-                  </h2>
-                  <h3 className="text-yellow-300 font-bold">{elem.date}</h3>
-                  <p className="break-words text-gray-400">{elem.desc}</p>
+            <div className={style.icon}>
+              <TbSchool />
+            </div>
+
+            <h1>Education </h1>
+            <div className={style.btnWrapper}>
+              {!educatoinDrop ? (
+                <MdOutlineArrowDropDown />
+              ) : (
+                <MdOutlineArrowDropUp />
+              )}
+            </div>
+          </div>
+          <div
+            className={` relative ${
+              !educatoinDrop && 'overflow-hidden h-[100px]'
+            } `}
+          >
+            <div className={` ${!educatoinDrop && 'overLay'}`}></div>
+            <p
+              onClick={() => setEducationDrop(!educatoinDrop)}
+              className={`  ${
+                educatoinDrop && 'hidden'
+              }   z-50 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
+            >
+              Read more...
+            </p>
+            {data?.education?.map((elem, index) => {
+              return (
+                <div key={String(index)} className={style.infoWrapper}>
+                  <div className="w-[100%] px-3">
+                    <h1 className="text-gray-900 text-[1.5rem] font-bold">
+                      {elem.degree}
+                    </h1>
+                    <h2 className="text-gray-600 text-[1.1rem] font-medium">
+                      {elem.school}
+                    </h2>
+                    <h3 className="text-yellow-300 font-bold">{elem.date}</h3>
+                    <p className="break-words text-gray-400">{elem.desc}</p>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
-      </section>
+              )
+            })}
+          </div>
+        </section>
+      )}
     </div>
   )
 }

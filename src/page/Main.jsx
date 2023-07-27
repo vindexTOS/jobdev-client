@@ -7,7 +7,7 @@ import { UseMainContext } from '../../context'
 const Main = () => {
   const { savedResumes } = UseMainContext()
   const style = {
-    mainDiv: `w-[80%] h-[100%] gap-20 py-10 pb-20 justify-around   m-auto flex flex-col   bg-gray-100 p-5 shadow-2xl	 `,
+    mainDiv: `w-[80%] h-[100%]   gap-5 py-10  justify-around   m-auto flex flex-col   bg-gray-100 p-5 shadow-2xl	 `,
   }
   // const formattedJsonString = JSON.stringify(savedResumes, null, 2)
   return (
