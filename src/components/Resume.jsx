@@ -14,19 +14,22 @@ import { PiFolderOpenFill } from 'react-icons/pi'
 import { Link, useParams } from 'react-router-dom'
 import { baseUrl } from '../globals/url'
 import { UseMainContext } from '../../context'
+import { motion as m } from 'framer-motion'
 
 const Resume = ({ data }) => {
   const [workDrop, setWorkDrop] = useState(true)
   const { zoomIn } = UseMainContext()
   const [educatoinDrop, setEducationDrop] = useState(false)
   const style = {
-    mainDiv: ` relative pt-[6rem] border-solid-2 ${
-      zoomIn ? ' laptop:h-[520px]' : ' laptop:h-[400px]'
-    }  h-[600px] overflow-y-scroll border-black flex flex-col gap-10  `,
+    mainDiv: ` relative  border-solid-2 ${
+      zoomIn
+        ? ' pb-40 pt-10    '
+        : ' laptop:h-[400px] pt-[6rem]  overflow-y-scroll  gap-10 h-[600px] '
+    }       flex flex-col  bg-white   `,
     infoWrapper: `  relative  w-[100%] justify-around flex  p-5 rounded-[5px]   solid border-black   `,
     header: ` flex  items-center justify-center gap-10 text-center bg-gray-200 p-1 rounded-[5px] shadow-md   text-3xl font-medium font-mono text-gray-500`,
     info: `text-gray-600`,
-    imgWrapper: `flex justify-around gap-10`,
+    imgWrapper: `flex justify-around relative gap-10`,
     img: `w-[300px] h-[300px]`,
     nameHeader: `text-[2rem] text-gray-700`,
     linksDiv: `flex flex-col items-start px-10 justify-around bg-white w-[340px] rounded-[9px] shadow-md`,
@@ -51,15 +54,6 @@ const Resume = ({ data }) => {
   const checkResume = devId === data.owner
   return (
     <div className={style.mainDiv}>
-      {!checkResume && (
-        <Link
-          to={`user/${data.owner}`}
-          className="absolute top-[-2px]  text-[1.2rem] text-blue-400  flex items-center justify-around w-[200px] "
-        >
-          <span> Go To Resume</span>{' '}
-          <PiFolderOpenFill className="text-yellow-500 text-[1.6rem]" />
-        </Link>
-      )}
       <div className={style.infoWrapper}>
         <h1 className={`${style.header}  w-[90%] absolute top-[-3rem] `}>
           <div className={style.icon}>
@@ -73,6 +67,15 @@ const Resume = ({ data }) => {
             className={style.img}
             src={data?.picturePath ? data?.picturePath : userdefault}
           />
+          {!checkResume && (
+            <Link
+              to={`user/${data.owner}`}
+              className=" absolute bottom-2 laptop: left-2  z-30 text-[1.2rem] text-blue-400  flex items-center justify-around w-[200px] "
+            >
+              <span> Go To Resume</span>{' '}
+              <PiFolderOpenFill className="text-yellow-500 text-[1.6rem]" />
+            </Link>
+          )}
           <div>
             <h1 className={style.nameHeader}>
               {data.firstName} {data.lastName}

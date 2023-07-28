@@ -7,6 +7,7 @@ import Filter from './Filter'
 import UserDropDown from './UserDropDown'
 import { BsSearchHeart } from 'react-icons/bs'
 import { MdFilterList, MdZoomOutMap, MdZoomInMap } from 'react-icons/md'
+import { motion as m } from 'framer-motion'
 
 const Header = () => {
   const {
@@ -16,22 +17,38 @@ const Header = () => {
     zoomIn,
     setZoomIn,
   } = UseMainContext()
+  const [navBarDrop, setNavBarDrop] = useState(false)
+  const [profileDrop, setProfileDrop] = useState(false)
+  const [filterDisplay, setFilterDisplay] = useState(false)
   const style = {
     mainDiv: `${
-      zoomIn ? '' : 'rounded-[50px]'
-    } relative  headerColor h-[6rem] p-10    flex items-center justify-around  text-gray-100  shadow-md  `,
+      zoomIn
+        ? `translate-y-[-85px]  top-0  sticky  absolute transition-all duration-300`
+        : 'rounded-[50px]  relative  '
+    }    headerColor h-[6rem] p-10 z-50 w-[100%]     transition-all duration-300  flex items-center justify-around  text-gray-100  shadow-md  `,
   }
+
   const showFitlerMenu = () => {
     setFilterDisplay(true)
   }
   const hideFilterMenu = () => {
     setFilterDisplay(false)
   }
-  const [profileDrop, setProfileDrop] = useState(false)
-  const [filterDisplay, setFilterDisplay] = useState(false)
+  const btnWrapperVariants = {
+    initialAnimation: { y: zoomIn ? -80 : 1 },
+    hover: {
+      y: 0,
+      transition: { duration: 0 },
+    },
+  }
   const navigation = useNavigate()
   return (
-    <div className={style.mainDiv}>
+    <m.div
+      variants={btnWrapperVariants}
+      initial="initialAnimation"
+      whileHover="hover"
+      className={style.mainDiv}
+    >
       <div
         className="h-full flex items-center "
         onMouseEnter={showFitlerMenu}
@@ -98,7 +115,7 @@ const Header = () => {
       {filterDisplay && (
         <Filter onMouseEnter={showFitlerMenu} onMouseLeave={hideFilterMenu} />
       )}
-    </div>
+    </m.div>
   )
 }
 

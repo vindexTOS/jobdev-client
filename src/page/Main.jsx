@@ -10,7 +10,7 @@ const Main = () => {
     mainDiv: ` ${
       zoomIn
         ? 'w-[100vw] h-[100vh]'
-        : 'h-[100%]  w-[80%] p-5   mt-2  rounded-[20px] '
+        : 'h-[100%]  w-[80%] p-5     mt-2  rounded-[20px] '
     }    gap-2   justify-around   boxshadow m-auto flex flex-col   bg-gray-100   	 `,
   }
   // const formattedJsonString = JSON.stringify(savedResumes, null, 2)
