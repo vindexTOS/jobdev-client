@@ -319,8 +319,27 @@ export const ContextProvider = ({ children }) => {
 
   // progressBar UI element counter ////
   const [progressBar, setProgressBar] = useState(0)
+
   // zoom in
   const [zoomIn, setZoomIn] = useState(false)
+  const [responsiveHeader, setResponsiveHeader] = useState(false)
+  // window drag stop functionality
+  const [width, setWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  useEffect(() => {
+    if (width > 900) {
+      setZoomIn(false)
+      setResponsiveHeader(false)
+    } else {
+      setZoomIn(true)
+      setResponsiveHeader(true)
+    }
+  }, [width])
   return (
     <Context.Provider
       value={{
@@ -349,6 +368,7 @@ export const ContextProvider = ({ children }) => {
         setProgressBar,
         zoomIn,
         setZoomIn,
+        responsiveHeader,
         // IMAGE UPLOAD STATE
         image,
         setImage,

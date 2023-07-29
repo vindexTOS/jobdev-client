@@ -21,21 +21,21 @@ const Resume = ({ data }) => {
   const { zoomIn } = UseMainContext()
   const [educatoinDrop, setEducationDrop] = useState(false)
   const style = {
-    mainDiv: ` relative  border-solid-2 ${
+    mainDiv: ` relative  border-solid-2   ${
       zoomIn
-        ? ' pb-40 pt-10    '
+        ? ' pb-40 pt-10     '
         : ' laptop:h-[400px] pt-[6rem]  overflow-y-scroll  gap-10 h-[600px] '
     }       flex flex-col  bg-white   `,
-    infoWrapper: `  relative  w-[100%] justify-around flex  p-5 rounded-[5px]   solid border-black   `,
-    header: ` flex  items-center justify-center gap-10 text-center bg-gray-200 p-1 rounded-[5px] shadow-md   text-3xl font-medium font-mono text-gray-500`,
+    infoWrapper: `   max_x:flex-wrap  max_x:gap-20  relative  w-[100%] justify-around flex  p-5 rounded-[5px]   solid border-black   `,
+    header: ` flex max_sm:text-[1rem]  items-center justify-center gap-10 text-center bg-gray-200 p-1 rounded-[5px] shadow-md   text-3xl font-medium font-mono text-gray-500`,
     info: `text-gray-600`,
-    imgWrapper: `flex justify-around relative gap-10`,
-    img: `w-[300px] h-[300px]`,
-    nameHeader: `text-[2rem] text-gray-700`,
-    linksDiv: `flex flex-col items-start px-10 justify-around bg-white w-[340px] rounded-[9px] shadow-md`,
+    imgWrapper: `max_x:flex-wrap max_x:flex  max_x:items-center  max_x:justify-center   max_x:flex-col  max_x:flex-row flex justify-around relative gap-10 `,
+    img: `w-[300px] h-[300px] `,
+    nameHeader: `text-[2rem] text-gray-700  max_x:text-center`,
+    linksDiv: `flex  flex-col  max_x:justify-start max_x:py-3  max_x:gap-5  items-start px-10 justify-around bg-white w-[340px] rounded-[9px] shadow-md`,
     icon: `border-2 p-1 rounded-[50%] border-yellow-400`,
     iconWrapper: `flex  items-center justify-center text-[1.2rem] gap-2`,
-    skillsDiv: `pt-10`,
+    skillsDiv: `pt-10  max_x:flex  max_x:flex-col  max_x:items-center `,
   }
   // const [copy, setCopy] = React.useState('')
   // function copyToClipboard() {
@@ -63,20 +63,22 @@ const Resume = ({ data }) => {
         </h1>
 
         <div className={style.imgWrapper}>
-          <img
-            className={style.img}
-            src={data?.picturePath ? data?.picturePath : userdefault}
-          />
-          {!checkResume && (
-            <Link
-              to={`user/${data.owner}`}
-              className=" absolute bottom-2 laptop: left-2  z-30 text-[1.2rem] text-blue-400  flex items-center justify-around w-[200px] "
-            >
-              <span> Go To Resume</span>{' '}
-              <PiFolderOpenFill className="text-yellow-500 text-[1.6rem]" />
-            </Link>
-          )}
           <div>
+            <img
+              className={style.img}
+              src={data?.picturePath ? data?.picturePath : userdefault}
+            />
+            {!checkResume && (
+              <Link
+                to={`user/${data.owner}`}
+                className=" bottom-2 laptop: left-2  z-30 text-[1.2rem] text-blue-400  flex items-center justify-around w-[200px] "
+              >
+                <span> Go To Resume</span>{' '}
+                <PiFolderOpenFill className="text-yellow-500 text-[1.6rem]" />
+              </Link>
+            )}
+          </div>
+          <div className=" max_x:flex  max_x:flex-col  max_x:items-center">
             <h1 className={style.nameHeader}>
               {data.firstName} {data.lastName}
             </h1>

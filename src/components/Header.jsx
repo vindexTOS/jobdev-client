@@ -16,8 +16,9 @@ const Header = () => {
     userResumeData,
     zoomIn,
     setZoomIn,
+    responsiveHeader,
   } = UseMainContext()
-  const [navBarDrop, setNavBarDrop] = useState(false)
+
   const [profileDrop, setProfileDrop] = useState(false)
   const [filterDisplay, setFilterDisplay] = useState(false)
   const style = {
@@ -34,8 +35,8 @@ const Header = () => {
   const hideFilterMenu = () => {
     setFilterDisplay(false)
   }
-  const btnWrapperVariants = {
-    initialAnimation: { y: zoomIn ? -80 : 1 },
+  const NavVariants = {
+    initialAnimation: { y: responsiveHeader ? 0 : zoomIn ? -80 : 1 },
     hover: {
       y: 0,
       transition: { duration: 0 },
@@ -44,7 +45,7 @@ const Header = () => {
   const navigation = useNavigate()
   return (
     <m.div
-      variants={btnWrapperVariants}
+      variants={NavVariants}
       initial="initialAnimation"
       whileHover="hover"
       className={style.mainDiv}
@@ -104,7 +105,7 @@ const Header = () => {
       )}
       <div
         onClick={() => setZoomIn(!zoomIn)}
-        className="absolute text-[2rem] flex items-center justify-center cursor-pointer right-10"
+        className="absolute text-[2rem] max_md2:hidden flex items-center justify-center cursor-pointer right-10"
       >
         <MdZoomInMap
           title="Zoom in"
