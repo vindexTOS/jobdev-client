@@ -35,7 +35,6 @@ const ResumeProgressBar = () => {
 
   // resume progress bar  UI element
 
-  const [resumeError, setResumeError] = useState('')
   const handleProgressBar = (string) => {
     let BaisicInfoCheck =
       StateResume.firstName &&
@@ -47,7 +46,7 @@ const ResumeProgressBar = () => {
         : false
 
     if (string === 'next' && progressBar <= 3) {
-      if (BaisicInfoCheck) {
+      if (!BaisicInfoCheck) {
         setProgressBar((prevProgressBar) => prevProgressBar + 1)
       } else {
         DispatchResume({
@@ -60,7 +59,7 @@ const ResumeProgressBar = () => {
           DispatchResume({ type: 'POST_ERROR', payload: '' })
         }, 3000)
       }
-    } else if (string === 'back' && progressBar >= 0) {
+    } else if (string === 'back' && progressBar >= 1) {
       setProgressBar((prevProgressBar) => prevProgressBar - 1)
     }
   }

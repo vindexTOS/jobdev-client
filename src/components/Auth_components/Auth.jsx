@@ -17,29 +17,36 @@ const Auth = () => {
       confirmPassword: StateAuth.confirmPassword,
       email: StateAuth.email,
     }
+    try {
+      const data = await axios
+        .post(`${baseUrl}/user/register`, body)
+        .then((res) => res)
+      // setting up token to header and storing it to cookies
+      const newToken = data.data.access_token
+      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+      const decoded = jwt(newToken)
 
-    const data = await axios
-      .post(`${baseUrl}/user/register`, body)
-      .then((res) => res.data)
-      .catch((err) => {
-        // DispatchAuth({ type: 'AUTH_ERROR', payload: err.message })
-        console.log(err)
+      DispatchAuth({ type: 'DECOD_USER', payload: decoded })
+
+      cookies.set('jwt_authorization', newToken, {
+        expires: new Date(decoded.exp * 1000),
       })
-    // setting up token to header and storing it to cookies
-    const newToken = data.access_token
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
-    const decoded = jwt(newToken)
 
-    DispatchAuth({ type: 'DECOD_USER', payload: decoded })
-
-    cookies.set('jwt_authorization', newToken, {
-      expires: new Date(decoded.exp * 1000),
-    })
-
-    // turning off loading and navigating to user page
-    DispatchAuth({ type: 'AUTH_LOADING', payload: false })
-    DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
-    // navigation('user')
+      // turning off loading and navigating to user page
+      DispatchAuth({ type: 'AUTH_LOADING', payload: false })
+      DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
+      DispatchAuth({ type: 'AUTH_SUCCSESS', payload: data.statusText })
+      setTimeout(() => {
+        DispatchAuth({ type: 'AUTH_SUCCSESS', payload: '' })
+      }, 3000)
+      // navigation('user')
+    } catch (err) {
+      console.log(err)
+      DispatchAuth({ type: 'AUTH_ERROR', payload: err.message })
+      setTimeout(() => {
+        DispatchAuth({ type: 'AUTH_ERROR', payload: '' })
+      }, 3000)
+    }
   }
   //login ///////////////////
   const handleLogin = async () => {
@@ -48,21 +55,31 @@ const Auth = () => {
       password: StateAuth.password,
       email: StateAuth.email,
     }
-    const data = await axios
-      .post(`${baseUrl}/user/login`, body)
-      .then((res) => res.data)
-      .catch((err) => console.log(err))
+    try {
+      const data = await axios
+        .post(`${baseUrl}/user/login`, body)
+        .then((res) => res)
 
-    const newToken = data.access_token
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
-    const decoded = jwt(newToken)
-    DispatchAuth({ type: 'DECOD_USER', payload: decoded })
-    cookies.set('jwt_authorization', newToken, {
-      expires: new Date(decoded.exp * 1000),
-    })
-    DispatchAuth({ type: 'AUTH_LOADING', payload: false })
-    DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
-    // navigation('user')
+      const newToken = data.data.access_token
+      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+      const decoded = jwt(newToken)
+      DispatchAuth({ type: 'DECOD_USER', payload: decoded })
+      cookies.set('jwt_authorization', newToken, {
+        expires: new Date(decoded.exp * 1000),
+      })
+      DispatchAuth({ type: 'AUTH_LOADING', payload: false })
+      DispatchAuth({ type: 'AUTH_POP_UP', payload: false })
+      DispatchAuth({ type: 'AUTH_SUCCSESS', payload: data.statusText })
+      setTimeout(() => {
+        DispatchAuth({ type: 'AUTH_SUCCSESS', payload: '' })
+      }, 3000)
+      // navigation('user')
+    } catch (err) {
+      DispatchAuth({ type: 'AUTH_ERROR', payload: err.message })
+      setTimeout(() => {
+        DispatchAuth({ type: 'AUTH_ERROR', payload: '' })
+      }, 3000)
+    }
   }
 
   const popUpHanndler = () => {

@@ -7,7 +7,7 @@ import EducationInfo from '../components/Resume_components/EducationInfo'
 import Finished from '../components/Resume_components/Finished'
 import Error from '../components/Error'
 const register = () => {
-  const { getValues, progressBar, education, StateResume } = UseMainContext()
+  const { progressBar, StateResume } = UseMainContext()
   const style = {
     mainDiv: ` ${
       StateResume.education.length > 1 ? 'h-[100%] ' : 'h-[100vh]'

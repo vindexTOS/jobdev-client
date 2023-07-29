@@ -3,6 +3,7 @@ import Input from '../Input'
 import { BiPlusCircle } from 'react-icons/bi'
 import { UseMainContext } from '../../../context'
 import { ImCancelCircle } from 'react-icons/im'
+import Textarea from '../Textarea'
 const ExperienceBlogComponent = () => {
   const style = {
     mainDiv: `flex flex-col items-center justify-center gap-5 `,
@@ -21,14 +22,14 @@ const ExperienceBlogComponent = () => {
             stateType="degree"
             title="Major-Degree"
           />
-        </div>
-        <div className={style.personal}>
           <Input
             dispatchType="EDUCATION_DATE"
             stateType="educationDate"
             title="Date"
           />
-          <Input
+        </div>
+        <div className={style.personal}>
+          <Textarea
             dispatchType="EDUCATION_DESC"
             stateType="educationDesc"
             title="Description"
