@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Outlet } from 'react-router-dom'
 import Header from '../components/Header'
-import SaveDevDropDown from '../components/Saved_Dev_components/SaveDevDropDOwn'
+import SaveDevDropDown from '../components/Saved_Dev_components/SaveDevDropDown'
 import { UseMainContext } from '../../context'
 const Main = () => {
   const { savedResumes, zoomIn } = UseMainContext()
