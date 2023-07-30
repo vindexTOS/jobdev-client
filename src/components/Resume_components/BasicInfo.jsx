@@ -9,8 +9,8 @@ const BasicInfo = () => {
   const { imgLoading, DispatchResume, StateResume } = UseMainContext()
   const style = {
     mainDiv: `flex flex-col items-center justify-center gap-5  h-[100vh]    `,
-    topDiv: `w-[100%] flex justify-around`,
-    personal: `flex flex-col   justify-around  `,
+    topDiv: `w-[100%] flex xm:flex-col lg:flex-row justify-around`,
+    personal: `flex flex-col xm:h-52 lg:h-auto mx-auto  justify-around`,
     photoDiv: `flex flex-col items-center `,
     contact: `flex justify-around w-[100%]`,
     inputWrapper: `flex flex-col items-center w-[100%] h-[800px]   justify-around gap-10 bg-white p-10 rounded-[8px] shadow-md`,
