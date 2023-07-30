@@ -36,7 +36,7 @@ const Header = () => {
     setFilterDisplay(false)
   }
   const NavVariants = {
-    initialAnimation: { y: responsiveHeader ? 0 : zoomIn ? -80 : 1 },
+    initialAnimation: { y: responsiveHeader ? 0 : zoomIn ? -80 : 0 },
     hover: {
       y: 0,
       transition: { duration: 0 },

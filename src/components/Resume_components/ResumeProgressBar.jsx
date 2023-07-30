@@ -3,7 +3,7 @@ import { UseMainContext } from '../../../context'
 import Button from '../Button'
 const ProgressBar = ({ color, stage, progress, handleNext }) => {
   return (
-    <div className="w-[30%] relative h-[2rem] flex items-center justify-between border-[1px] border-[#fd5564] rounded-[2rem]">
+    <div className="w-[30%]  relative h-[2rem] flex items-center justify-between border-[1px] border-[#fd5564] rounded-[2rem]">
       <div
         className="w-[100%] transition-all duration-1000 rounded-[12px] h-[1.9rem] "
         style={{
@@ -82,7 +82,7 @@ const ResumeProgressBar = () => {
   }, [progressBar])
 
   return (
-    <div className="flex flex-col gap-10 py-10 py-20">
+    <div className="flex flex-col gap-10 py-10 py-20 max_xl:w-[100%] ">
       <section className="flex w-[100%] gap-2 items-center justify-center">
         <ProgressBar
           color={progressBar >= 1 ? '#fe3c72' : ''}

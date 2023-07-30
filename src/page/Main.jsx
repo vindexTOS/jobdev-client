@@ -11,7 +11,7 @@ const Main = () => {
       zoomIn
         ? 'w-[100vw] h-[100vh]'
         : 'h-[100%]  w-[80%] p-5     mt-2  rounded-[20px] '
-    }    gap-2   justify-around   boxshadow m-auto flex flex-col   bg-gray-100   	 `,
+    }    gap-2   justify-around   boxshadow m-auto flex flex-col   bg-gray-100  max_lg:h-[1500px] max_lg:justify-start  	 `,
   }
   // const formattedJsonString = JSON.stringify(savedResumes, null, 2)
   return (

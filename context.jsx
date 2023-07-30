@@ -332,7 +332,7 @@ export const ContextProvider = ({ children }) => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
   useEffect(() => {
-    if (width > 900) {
+    if (width > 1050) {
       setZoomIn(false)
       setResponsiveHeader(false)
     } else {
