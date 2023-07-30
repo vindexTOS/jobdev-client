@@ -14,7 +14,7 @@ module.exports = {
       laptop: { raw: '(max-height:900px)' },
       // => @media (max-height: 900px) { ...
       //widths
-      xm: '500px',
+      xm: '375px',
       sm: '640px',
       // => @media (min-width: 640px) { ... }
 

@@ -8,12 +8,12 @@ import { JobTitleSelect, CitySelect } from '../../MOCK_DATA/ResumeDropDownData'
 const BasicInfo = () => {
   const { imgLoading, DispatchResume, StateResume } = UseMainContext()
   const style = {
-    mainDiv: `flex flex-col items-center justify-center gap-5  h-[100vh]    `,
-    topDiv: `w-[100%] flex justify-around`,
-    personal: `flex flex-col   justify-around  `,
+    mainDiv: `flex flex-col items-center justify-center gap-5  h-[100vh] mt-16   `,
+    topDiv: `w-[100%] flex xm:flex-col lg:flex-row justify-around`,
+    personal: `flex flex-col xm:h-52 lg:h-auto mx-auto  justify-around`,
     photoDiv: `flex flex-col items-center `,
-    contact: `flex justify-around w-[100%]`,
-    inputWrapper: `flex flex-col items-center w-[100%] h-[800px]   justify-around gap-10 bg-white p-10 rounded-[8px] shadow-md`,
+    contact: `flex justify-around w-[100%] xm:flex-wrap xm:h-32 lg:h-auto lg:flex-nowrap`,
+    inputWrapper: `flex flex-col items-center w-[100%] h-[800px]  justify-around gap-10 bg-white p-10 rounded-[8px] shadow-md`,
     header: `text-2xl font-medium font-mono text-gray-500`,
     skills: `flex flex-col justify-center gap-10 items-center w-[100%]  `,
     addBtn: `py-3 px-4 mt-2 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800`,
