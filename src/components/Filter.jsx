@@ -5,7 +5,7 @@ const Filter = ({ onMouseEnter, onMouseLeave }) => {
   const { DispatchData } = UseMainContext()
 
   const style = {
-    mappedDiv: ` absolute top-[3rem] bg-white shadow-md  w-[100%] z-50 overflow-y-scroll  element-without-scrollbar  max-h-[200px] items-center flex flex-col rounded-b-[9px]  rounded-t-[6px] boxshaddow `,
+    mappedDiv: `  py-5  m-0  absolute top-[3rem] right-10  max_smm:right-12  max_smm:w-[300px] bg-white shadow-md  w-[100%] z-50 overflow-y-scroll  element-without-scrollbar  max-h-[200px] items-center justify-around flex flex-col rounded-b-[9px]  rounded-t-[6px] boxshaddow `,
     selectItem: `hover:bg-gray-200 text-gray-500 text h-[2.5rem] hover:text-gray-800 w-[100%] rounded-[5px] cursor-pointer flex items-center justify-center`,
   }
   const FixedArray = [{ title: 'All', _id: 5 }, ...JobTitleSelect]

@@ -91,7 +91,7 @@ const ImgUpload = () => {
     setHover(false)
   }
   return (
-    <div className="flex   relative items-center justify-center max_md2:w-[40%] border-[2px] rounded-[4px] cursor-pointer">
+    <div className="flex max_smm:w-[100%]  relative items-center justify-center max_md2:w-[40%] border-[2px] rounded-[4px] cursor-pointer">
       <label
         onDragLeave={(e) => handleDragLeave(e)}
         onDragOver={(e) => handleDragOver(e)}

@@ -163,7 +163,7 @@ const Resume = ({ data }) => {
               onClick={() => setWorkDrop(!workDrop)}
               className={`  ${
                 !workDrop && 'hidden'
-              }   z-50 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
+              }   z-40 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
             >
               Read more...
             </p>
@@ -218,7 +218,7 @@ const Resume = ({ data }) => {
               onClick={() => setEducationDrop(!educatoinDrop)}
               className={`  ${
                 educatoinDrop && 'hidden'
-              }   z-50 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
+              }   z-40 cursor-pointer text-[1.5rem] absolute top-[4rem] text-center w-[100%] text-red-400 font-bold `}
             >
               Read more...
             </p>

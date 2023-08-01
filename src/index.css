@@ -90,3 +90,7 @@ body {
 .element-without-scrollbar::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
+
+.profileDropDownZ {
+  z-index: 100000;
+}
