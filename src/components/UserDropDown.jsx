@@ -14,6 +14,7 @@ const UserDropDown = ({ img, id }) => {
   }
   const logOut = () => {
     cookies.remove('jwt_authorization')
+    window.location.reload()
   }
   const navigation = useNavigate()
   return (
