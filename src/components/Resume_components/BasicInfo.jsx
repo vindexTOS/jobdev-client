@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Input from '../Input'
 import { UseMainContext } from '../../../context'
 import ImgUpload from '../ImgUpload'
@@ -8,7 +8,7 @@ import { JobTitleSelect, CitySelect } from '../../MOCK_DATA/ResumeDropDownData'
 const BasicInfo = () => {
   const { imgLoading, DispatchResume, StateResume } = UseMainContext()
   const style = {
-    mainDiv: `    flex flex-col   max_smm:w-[100%] max_smm:mt-[40rem]  max_lg:mt-[35rem] items-center justify-center gap-5  h-[100vh]    `,
+    mainDiv: `    flex flex-col    overflow-y-scroll h-[600px]  max_smm:h-[1200px]   max_smm:w-[100%]    items-center justify-start gap-5     `,
     topDiv: `w-[100%] max_xl:gap-10  max_smm:w-[100%]   flex max_xl:flex-col lg:flex-row justify-around`,
     personal: `flex  flex-col max_smm:items-center max_smm:justify-center max_smm:w-[90%]   max_smm:flex-wrap max_smm:flex-col max_xl:flex-row  max_lg:gap-5  lg:h-auto mx-auto  justify-around`,
     photoDiv: `flex flex-col  items-center max_smm:w-[100%] max_smm:justify-around `,
@@ -34,7 +34,7 @@ const BasicInfo = () => {
 
     DispatchResume({ type: 'SKILL_ARRAY_REMOVE', payload: newArr })
   }
-
+  const skillDropRef = useRef()
   return (
     <div className={style.mainDiv}>
       <div className={style.inputWrapper}>
@@ -119,7 +119,7 @@ const BasicInfo = () => {
             </button>
           </div>
           {StateResume.technologies.length >= 1 && (
-            <div className={style.skillsDiv}>
+            <div useRef={skillDropRef} className={style.skillsDiv}>
               {StateResume.technologies.map((val, i) => {
                 return (
                   <div

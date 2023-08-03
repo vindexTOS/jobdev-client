@@ -11,7 +11,7 @@ const register = () => {
   const style = {
     mainDiv: ` ${
       StateResume.education.length > 1 ? 'h-[100%] ' : 'h-[100vh]'
-    }  flex flex-col   bg-gray-100  justify-around mt-20 max_xl:justify-center max_xl:items-center  max_xl:mt-40 max_xl:h-[100%] max_xl:gap-20  max_lg:gap-60 max_lg:m-0 max_lg:pb-80 `,
+    }  flex flex-col   bg-gray-100  justify-around  max_xl:justify-center max_xl:items-center  max_xl:mt-40 max_xl:h-[100%] max_xl:gap-20  max_lg:gap-60 max_lg:m-0 max_lg:pb-80 `,
   }
 
   return (

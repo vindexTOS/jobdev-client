@@ -82,7 +82,7 @@ const ResumeProgressBar = () => {
   }, [progressBar])
 
   return (
-    <div className="flex flex-col gap-10 py-10 py-20 max_xl:w-[100%]   max_smm:mt-[8rem] ">
+    <div className="flex flex-col gap-10 max_xl:w-[100%]   max_smm:fixed max_smm:bottom-0 ">
       <section className="flex w-[100%] gap-2 items-center justify-center">
         <ProgressBar
           color={progressBar >= 1 ? '#fe3c72' : ''}
